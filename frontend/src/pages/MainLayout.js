@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import SettingsPage from "./SettingsPage";
 
 const SIDEBAR_WIDTH = 200;
 const SIDEBAR_COLLAPSED_WIDTH = 68;
@@ -22,11 +23,7 @@ const pageComponents = [
     title: "Profile",
   },
   {
-    component: (
-      <Box key="settings" p={4}>
-        <Typography variant="h4">Settings Page (Coming Soon)</Typography>
-      </Box>
-    ),
+    component: <SettingsPage key="settings" />,
     title: "Settings",
   },
 ];

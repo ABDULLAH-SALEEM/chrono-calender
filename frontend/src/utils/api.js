@@ -54,6 +54,17 @@ export const authAPI = {
     });
     return handleResponse(response);
   },
+
+  changePassword: async (passwordData) => {
+    const response = await fetch(`${API_BASE_URL}/auth/password`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(passwordData),
+    });
+    return handleResponse(response);
+  },
 };
 
 // Event APIs
