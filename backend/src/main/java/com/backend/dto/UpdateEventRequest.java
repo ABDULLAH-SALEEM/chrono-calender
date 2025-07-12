@@ -30,4 +30,5 @@ public class UpdateEventRequest {
     private List<String> tags;
     private List<String> userIds; // IDs of users to invite
     private String location; // optional location field
+    private String color; // hex color code for event background
 }

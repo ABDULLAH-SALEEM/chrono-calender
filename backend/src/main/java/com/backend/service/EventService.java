@@ -45,6 +45,7 @@ public class EventService {
                 event.setPriority(request.getPriority());
                 event.setRecurring(request.getRecurring());
                 event.setTags(request.getTags());
+                event.setColor(request.getColor()); // set color
                 event.setLocation(request.getLocation()); // set location
                 event.setOwner(owner);
                 event.setUsers(new ArrayList<>());
@@ -149,6 +150,7 @@ public class EventService {
                 event.setPriority(request.getPriority());
                 event.setRecurring(request.getRecurring());
                 event.setTags(request.getTags());
+                event.setColor(request.getColor()); // set color
                 event.setLocation(request.getLocation()); // set location
                 event.setUpdatedAt(LocalDateTime.now());
 

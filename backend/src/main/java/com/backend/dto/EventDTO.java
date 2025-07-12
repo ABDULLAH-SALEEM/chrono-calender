@@ -22,6 +22,7 @@ public class EventDTO {
     private String priority;
     private String recurring;
     private List<String> tags;
+    private String color; // hex color code for event background
     private UserDTO owner;
     private List<UserDTO> users;
     private LocalDateTime createdAt;
@@ -38,6 +39,7 @@ public class EventDTO {
         dto.setPriority(event.getPriority());
         dto.setRecurring(event.getRecurring());
         dto.setTags(event.getTags());
+        dto.setColor(event.getColor()); // map color
         dto.setCreatedAt(event.getCreatedAt());
         dto.setUpdatedAt(event.getUpdatedAt());
         dto.setLocation(event.getLocation()); // map location

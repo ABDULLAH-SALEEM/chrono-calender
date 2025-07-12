@@ -25,7 +25,7 @@ public class Event {
     private String priority; // high, medium, low, critical
     private String recurring; // daily, weekly, monthly, or empty
     private List<String> tags;
-
+    private String color; // hex color code for event background
     private String location; // optional location field
 
     @DBRef

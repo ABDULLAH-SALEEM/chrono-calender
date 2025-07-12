@@ -34,6 +34,19 @@ const recurringOptions = [
   { value: "monthly", label: "Monthly" },
 ];
 
+const presetColors = [
+  { value: "#667eea", label: "Blue" },
+  { value: "#f093fb", label: "Pink" },
+  { value: "#4facfe", label: "Light Blue" },
+  { value: "#43e97b", label: "Green" },
+  { value: "#fa709a", label: "Rose" },
+  { value: "#ffecd2", label: "Orange" },
+  { value: "#a8edea", label: "Cyan" },
+  { value: "#ff9a9e", label: "Coral" },
+  { value: "#667eea", label: "Purple" },
+  { value: "#f093fb", label: "Magenta" },
+];
+
 const schema = yup.object().shape({
   title: yup.string().required("Title is required"),
   description: yup.string().required("Description is required"),
@@ -50,6 +63,7 @@ const schema = yup.object().shape({
   recurring: yup.string().oneOf(["", "daily", "weekly", "monthly"]),
   tags: yup.array().of(yup.string()).optional(),
   location: yup.string().optional(),
+  color: yup.string().optional(),
   userIds: yup
     .array()
     .of(
@@ -115,6 +129,7 @@ export default function EventForm({
       recurring: initialValues.recurring || "",
       tags: initialValues.tags || [],
       location: initialValues.location || "",
+      color: initialValues.color || "",
       userIds: mapIdsToUserObjects(initialValues.userIds || []),
     },
     resolver: yupResolver(schema),
@@ -186,6 +201,74 @@ export default function EventForm({
             }}
             placeholder="Event location"
             error={!!errors.location}
+          />
+
+          {/* Color Field */}
+          <Controller
+            name="color"
+            control={control}
+            render={({ field }) => (
+              <Box>
+                <Typography variant="body2" color="text.secondary" mb={1}>
+                  Event Color
+                </Typography>
+                <Box
+                  sx={{ display: "flex", gap: 1, alignItems: "center", mb: 1 }}
+                >
+                  <input
+                    type="color"
+                    value={field.value || "#667eea"}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    style={{
+                      width: "50px",
+                      height: "40px",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  />
+                  <TextField
+                    {...field}
+                    placeholder="#667eea"
+                    size="small"
+                    sx={{ flex: 1 }}
+                    inputProps={{
+                      pattern: "^#[0-9A-Fa-f]{6}$",
+                      title: "Enter a valid hex color code (e.g., #667eea)",
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{ display: "flex", gap: 0.5, flexWrap: "wrap", mb: 1 }}
+                >
+                  {presetColors.map((color) => (
+                    <Box
+                      key={color.value}
+                      onClick={() => field.onChange(color.value)}
+                      sx={{
+                        width: "24px",
+                        height: "24px",
+                        backgroundColor: color.value,
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        border:
+                          field.value === color.value
+                            ? "2px solid #000"
+                            : "1px solid #ddd",
+                        "&:hover": {
+                          transform: "scale(1.1)",
+                          transition: "transform 0.2s ease",
+                        },
+                      }}
+                      title={color.label}
+                    />
+                  ))}
+                </Box>
+                <FormHelperText>
+                  Choose a color for your event background
+                </FormHelperText>
+              </Box>
+            )}
           />
 
           <Controller
