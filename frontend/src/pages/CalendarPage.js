@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { useCalendarApp, ScheduleXCalendar } from "@schedule-x/react";
+import { createEventRecurrencePlugin } from "@schedule-x/event-recurrence";
 import {
   createViewDay,
   createViewMonthAgenda,
@@ -64,6 +65,18 @@ const CalendarPage = () => {
         priority: ev.priority,
         recurring: ev.recurring,
         tags: ev.tags,
+        ...(ev.recurring
+          ? {
+              rrule:
+                ev.recurring === "daily"
+                  ? "FREQ=DAILY;"
+                  : ev.recurring === "weekly"
+                    ? "FREQ=WEEKLY;"
+                    : ev.recurring === "monthly"
+                      ? "FREQ=MONTHLY;"
+                      : "",
+            }
+          : {}),
       }));
       eventsService.set(formattedEvents);
     } catch (error) {
@@ -135,7 +148,7 @@ const CalendarPage = () => {
     ],
     defaultView: "week",
     events: [],
-    plugins: [eventsService, dragAndDropPlugin],
+    plugins: [eventsService, dragAndDropPlugin, createEventRecurrencePlugin()],
     eventDisplay: "block",
     callbacks: {
       onEventUpdate: async (event, e) => {
