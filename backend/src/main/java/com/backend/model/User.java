@@ -29,6 +29,8 @@ public class User implements UserDetails {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    private String timezone = "Europe/Berlin";
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {

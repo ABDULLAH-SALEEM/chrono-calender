@@ -14,8 +14,10 @@ import {
 } from "@mui/material";
 import CustomTextField from "../components/formFields/textField";
 import { authService } from "../services/apis";
+import { useAuth } from "../hooks/useAuth";
 
 const SettingsPage = () => {
+  const { user } = useAuth();
   // Change Password Form
   const {
     handleSubmit: handlePasswordSubmit,
@@ -62,11 +64,10 @@ const SettingsPage = () => {
     handleSubmit: handleTimezoneSubmit,
     control: timezoneControl,
     formState: { errors: timezoneErrors },
-    reset: resetTimezoneForm,
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      timezone: "Europe/Berlin",
+      timezone: user?.timezone || "Europe/Berlin",
     },
   });
   const [timezoneMsg, setTimezoneMsg] = useState("");
@@ -77,7 +78,6 @@ const SettingsPage = () => {
       setTimezoneLoading(true);
       setTimezoneMsg("");
       await authService.updateTimezone(data);
-      resetTimezoneForm();
       setTimezoneMsg("Timezone updated successfully.");
     } catch (err) {
       setTimezoneMsg(

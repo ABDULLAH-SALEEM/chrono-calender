@@ -66,4 +66,13 @@ public class AuthService {
         userRepository.save(user);
         logger.info("Password changed successfully for user: {}", email);
     }
+
+    public void updateTimezone(String email, String timezone) {
+        logger.info("Updating timezone for user: {}", email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setTimezone(timezone);
+        userRepository.save(user);
+        logger.info("Timezone updated successfully for user: {}", email);
+    }
 }

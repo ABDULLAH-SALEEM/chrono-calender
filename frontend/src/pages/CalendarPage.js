@@ -17,16 +17,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Button from "@mui/material/Button";
 import { eventService } from "../services/apis";
-
-function formatDate(date) {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  const hours = String(d.getHours()).padStart(2, "0");
-  const minutes = String(d.getMinutes()).padStart(2, "0");
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
+import { useAuth } from "../hooks/useAuth";
 
 function toLocalISOString(date) {
   return (
@@ -45,12 +36,39 @@ function toLocalISOString(date) {
 }
 
 const CalendarPage = () => {
+  const { user } = useAuth();
   const eventsService = useState(() => createEventsServicePlugin())[0];
   const dragAndDropPlugin = useState(() => createDragAndDropPlugin())[0];
   const [open, setOpen] = useState(false);
   const [editEvent, setEditEvent] = useState(null);
   const notifiedEventsRef = useRef(new Set());
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const timeZone = user?.timezone || "Europe/Berlin";
+    const options = {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+
+    const formatter = new Intl.DateTimeFormat("en-GB", options);
+    const parts = formatter.formatToParts(d);
+
+    const get = (type) => parts.find((p) => p.type === type)?.value;
+
+    const year = get("year");
+    const month = get("month");
+    const day = get("day");
+    const hour = get("hour");
+    const minute = get("minute");
+
+    return `${year}-${month}-${day} ${hour}:${minute}`;
+  };
   // Request notification permission on mount
   useEffect(() => {
     if ("Notification" in window && Notification.permission !== "granted") {

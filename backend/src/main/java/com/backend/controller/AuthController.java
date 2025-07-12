@@ -115,4 +115,22 @@ public class AuthController {
             return ResponseEntity.badRequest().body(error);
         }
     }
+
+    @PutMapping("/timezone")
+    public ResponseEntity<?> updateTimezone(@RequestHeader("Authorization") String token,
+            @RequestBody Map<String, String> request) {
+        try {
+            String email = jwtService.extractUsername(token.substring(7));
+            String timezone = request.get("timezone");
+            authService.updateTimezone(email, timezone);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Timezone updated successfully");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            logger.error("Timezone update failed: {}", e.getMessage());
+            Map<String, String> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
 }

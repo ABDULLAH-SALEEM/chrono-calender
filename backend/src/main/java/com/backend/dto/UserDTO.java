@@ -15,12 +15,14 @@ public class UserDTO {
     private String name;
     private String email;
     private LocalDateTime createdAt;
+    private String timezone;
 
     public static UserDTO fromUser(User user) {
         return new UserDTO(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getCreatedAt());
+                user.getCreatedAt(),
+                user.getTimezone());
     }
 }
