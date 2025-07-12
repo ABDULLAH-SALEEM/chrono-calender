@@ -88,6 +88,7 @@ const CalendarPage = () => {
         if (!event.start || !event.id) return;
         const eventStart = new Date(event.start);
         if (
+          eventStart.getHours() === tenMinsLater.getHours() &&
           eventStart.getMinutes() === tenMinsLater.getMinutes() &&
           !notifiedEventsRef.current.has(event.id)
         ) {
