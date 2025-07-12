@@ -28,6 +28,9 @@ public class EventService {
         @Autowired
         private UserRepository userRepository;
 
+        @Autowired
+        private InvitationService invitationService;
+
         public EventDTO createEvent(CreateEventRequest request, String ownerEmail) {
                 logger.info("Creating event: {} for user: {}", request.getTitle(), ownerEmail);
 
@@ -47,14 +50,13 @@ public class EventService {
                 event.setUsers(new ArrayList<>());
                 event.getUsers().add(owner); // Add owner to users list initially
 
-                // Add invited users if any
-                if (request.getUserIds() != null && !request.getUserIds().isEmpty()) {
-                        List<User> invitedUsers = userRepository.findAllById(request.getUserIds());
-                        event.getUsers().addAll(invitedUsers);
-                }
-
                 Event savedEvent = eventRepository.save(event);
                 logger.info("Event created successfully: {}", savedEvent.getId());
+
+                // Create invitations for invited users if any
+                if (request.getUserIds() != null && !request.getUserIds().isEmpty()) {
+                        invitationService.createInvitations(savedEvent.getId(), request.getUserIds(), ownerEmail);
+                }
 
                 return EventDTO.fromEvent(savedEvent);
         }
@@ -67,12 +69,6 @@ public class EventService {
 
                 User user = userRepository.findByEmail(userEmail)
                                 .orElseThrow(() -> new EventException("User not found"));
-
-                // Check if user has access to this event
-                if (!event.getOwner().getId().equals(user.getId()) &&
-                                !event.getUsers().stream().anyMatch(u -> u.getId().equals(user.getId()))) {
-                        throw new EventException("Access denied");
-                }
 
                 return EventDTO.fromEvent(event);
         }
@@ -156,11 +152,9 @@ public class EventService {
                 event.setLocation(request.getLocation()); // set location
                 event.setUpdatedAt(LocalDateTime.now());
 
-                // Update invited users if provided
+                // Create invitations for invited users if provided
                 if (request.getUserIds() != null) {
-                        List<User> invitedUsers = userRepository.findAllById(request.getUserIds());
-                        event.setUsers(invitedUsers);
-                        event.getUsers().add(user); // Ensure owner is in the list
+                        invitationService.createInvitations(eventId, request.getUserIds(), userEmail);
                 }
 
                 Event updatedEvent = eventRepository.save(event);
@@ -183,6 +177,9 @@ public class EventService {
                         throw new EventException("Only event owner can delete the event");
                 }
 
+                // Delete all invitations for this event
+                invitationService.deleteInvitationsForEvent(eventId);
+
                 eventRepository.delete(event);
                 logger.info("Event deleted successfully: {}", eventId);
         }
@@ -195,6 +192,11 @@ public class EventService {
 
                 User user = userRepository.findByEmail(userEmail)
                                 .orElseThrow(() -> new EventException("User not found"));
+
+                // Check if user is the owner
+                if (event.getOwner().getId().equals(user.getId())) {
+                        throw new EventException("Event owner cannot join their own event");
+                }
 
                 // Check if user is already in the event
                 if (event.getUsers().stream().anyMatch(u -> u.getId().equals(user.getId()))) {

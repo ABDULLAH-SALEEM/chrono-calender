@@ -271,6 +271,7 @@ const CalendarPage = () => {
           }}
           submitLabel={editEvent ? "Update" : "Create"}
           onDelete={editEvent ? handleDeleteEvent : undefined}
+          eventId={editEvent?.id}
         />
       </Dialog>
       <ScheduleXCalendar calendarApp={calendar} />

@@ -48,4 +48,22 @@ export const eventService = {
   leaveEvent: (eventId) => api.post(`/events/${eventId}/leave`),
 };
 
+export const invitationService = {
+  // Get all invitations for the current user
+  getInvitations: () => api.get("/invitations"),
+
+  // Accept an invitation
+  acceptInvitation: (invitationId) =>
+    api.post(`/invitations/${invitationId}/accept`),
+
+  // Decline an invitation
+  declineInvitation: (invitationId) =>
+    api.post(`/invitations/${invitationId}/decline`),
+};
+
+export const userService = {
+  // Get all users (excluding current user)
+  getAllUsers: () => api.get("/users"),
+};
+
 export default api;

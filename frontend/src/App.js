@@ -9,6 +9,7 @@ import { Route, BrowserRouter, Routes, useLocation } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { ProtectedRoute } from "./components/ProtectedRoutes";
+import EventJoinPage from "./pages/EventJoinPage";
 
 function App() {
   const AnimatedRoutes = () => {
@@ -49,6 +50,16 @@ function App() {
               <ProtectedRoute requireAuth={false}>
                 <motion.div {...pageTransition}>
                   <RegisterPage />
+                </motion.div>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/events/:eventId/join"
+            element={
+              <ProtectedRoute>
+                <motion.div {...pageTransition}>
+                  <EventJoinPage />
                 </motion.div>
               </ProtectedRoute>
             }

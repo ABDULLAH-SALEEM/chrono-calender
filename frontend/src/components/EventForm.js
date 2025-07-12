@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Box,
@@ -11,11 +11,14 @@ import {
   Dialog,
   Grid,
 } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import CustomTextField from "./formFields/textField";
 import TagSelector from "./TagSelector";
+import UserSelector from "./UserSelector";
+import { userService } from "../services/apis";
 
 const priorities = [
   { value: "high", label: "High" },
@@ -46,7 +49,16 @@ const schema = yup.object().shape({
   priority: yup.string().oneOf(["", "high", "medium", "low", "critical"]),
   recurring: yup.string().oneOf(["", "daily", "weekly", "monthly"]),
   tags: yup.array().of(yup.string()).optional(),
-  location: yup.string().optional(), // new field
+  location: yup.string().optional(),
+  userIds: yup
+    .array()
+    .of(
+      yup.object().shape({
+        value: yup.string().required(),
+        label: yup.string().required(),
+      })
+    )
+    .optional(),
 });
 
 export default function EventForm({
@@ -54,12 +66,44 @@ export default function EventForm({
   onSubmit,
   onCancel,
   submitLabel = "Create",
-  onDelete, // new prop
+  onDelete,
+  eventId, // for copy link functionality
 }) {
+  const [allUsers, setAllUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setUsersLoading(true);
+      try {
+        const response = await userService.getAllUsers();
+        const userOptions = response.data.map((user) => ({
+          value: user.id,
+          label: user.name || user.email,
+        }));
+        setAllUsers(userOptions);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setUsersLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  // Helper to map IDs to user objects
+  const mapIdsToUserObjects = (ids) => {
+    if (!Array.isArray(ids)) return [];
+    return ids
+      .map((id) => allUsers.find((u) => u.value === id))
+      .filter(Boolean);
+  };
+
   const {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -70,15 +114,41 @@ export default function EventForm({
       priority: initialValues.priority || "",
       recurring: initialValues.recurring || "",
       tags: initialValues.tags || [],
-      location: initialValues.location || "", // new field
+      location: initialValues.location || "",
+      userIds: mapIdsToUserObjects(initialValues.userIds || []),
     },
     resolver: yupResolver(schema),
   });
+
+  console.log("error", errors);
+  // When allUsers changes, update userIds in form if needed
+  useEffect(() => {
+    if (initialValues.userIds && allUsers.length > 0) {
+      setValue("userIds", mapIdsToUserObjects(initialValues.userIds));
+    }
+    // eslint-disable-next-line
+  }, [allUsers]);
+
+  const handleCopyLink = () => {
+    if (eventId) {
+      const link = `${window.location.origin}/events/${eventId}/join`;
+      navigator.clipboard.writeText(link).then(() => {
+        // You could add a toast notification here
+        alert("Event link copied to clipboard!");
+      });
+    }
+  };
+
+  const handleFormSubmit = (data) => {
+    const userIds = (data.userIds || []).map((user) => user.value);
+    onSubmit({ ...data, userIds });
+  };
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
     <Box sx={{ p: 2 }}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Typography variant="h6" mb={2} align="center">
           {submitLabel === "Create" ? "Create New Event" : "Update Event"}
         </Typography>
@@ -203,16 +273,39 @@ export default function EventForm({
               />
             )}
           />
+
+          <Controller
+            name="userIds"
+            control={control}
+            render={({ field }) => (
+              <UserSelector
+                value={field.value}
+                onChange={(selected) => field.onChange(selected)}
+                error={errors.userIds?.message}
+                label="Invite Users"
+              />
+            )}
+          />
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Grid>
               {submitLabel === "Update" && (
-                <Button
-                  color="error"
-                  variant="contained"
-                  onClick={() => setDeleteDialogOpen(true)}
-                >
-                  Delete
-                </Button>
+                <>
+                  <Button
+                    color="error"
+                    variant="contained"
+                    onClick={() => setDeleteDialogOpen(true)}
+                    sx={{ mr: 1 }}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={handleCopyLink}
+                    startIcon={<ContentCopyIcon />}
+                  >
+                    Copy Link
+                  </Button>
+                </>
               )}
             </Grid>
 

@@ -18,11 +18,13 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import MailIcon from "@mui/icons-material/Mail";
 import { useAuth } from "../hooks/useAuth";
 
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon /> },
   { text: "Profile", icon: <PersonIcon /> },
+  { text: "Invitations", icon: <MailIcon /> },
   { text: "Settings", icon: <SettingsIcon /> },
 ];
 

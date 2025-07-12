@@ -8,6 +8,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SettingsPage from "./SettingsPage";
+import InvitationsPage from "./InvitationsPage";
 
 const SIDEBAR_WIDTH = 200;
 const SIDEBAR_COLLAPSED_WIDTH = 68;
@@ -21,6 +22,10 @@ const pageComponents = [
       </Box>
     ),
     title: "Profile",
+  },
+  {
+    component: <InvitationsPage key="invitations" />,
+    title: "Invitations",
   },
   {
     component: <SettingsPage key="settings" />,
