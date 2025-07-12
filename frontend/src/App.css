@@ -46,27 +46,3 @@
   max-height: 90vh;
 } */
 
-
-.sx__calendar{
-  height: 80vh !important;
-}
-
-/* Custom event styling for ScheduleX calendar */
-.sx__event {
-  border-radius: 4px !important;
-  border: none !important;
-  font-weight: 500 !important;
-}
-
-/* Ensure event colors are properly applied */
-.sx__event[style*="background-color"] {
-  color: white !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* Hover effect for events */
-.sx__event:hover {
-  opacity: 0.9 !important;
-  transform: translateY(-1px) !important;
-  transition: all 0.2s ease !important;
-}
