@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import { useCalendarApp, ScheduleXCalendar } from "@schedule-x/react";
 import { createEventRecurrencePlugin } from "@schedule-x/event-recurrence";
@@ -49,6 +49,44 @@ const CalendarPage = () => {
   const dragAndDropPlugin = useState(() => createDragAndDropPlugin())[0];
   const [open, setOpen] = useState(false);
   const [editEvent, setEditEvent] = useState(null);
+  const notifiedEventsRef = useRef(new Set());
+
+  // Request notification permission on mount
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  // Poll for upcoming events every minute
+  useEffect(() => {
+    const pollInterval = setInterval(() => {
+      if (!eventsService.getAll) return;
+      const now = new Date();
+      const tenMinsLater = new Date(now.getTime() + 10 * 60 * 1000);
+      const events = eventsService.getAll();
+      if (!Array.isArray(events)) return;
+      events.forEach((event) => {
+        if (!event.start || !event.id) return;
+        const eventStart = new Date(event.start);
+        if (
+          eventStart.getMinutes() === tenMinsLater.getMinutes() &&
+          !notifiedEventsRef.current.has(event.id)
+        ) {
+          if (
+            "Notification" in window &&
+            Notification.permission === "granted"
+          ) {
+            new Notification(`Upcoming Event: ${event.title}`, {
+              body: `Starts at ${eventStart.toLocaleTimeString()}`,
+            });
+            notifiedEventsRef.current.add(event.id);
+          }
+        }
+      });
+    }, 60 * 1000); // every minute
+    return () => clearInterval(pollInterval);
+  }, [eventsService]);
 
   const fetchEvents = async () => {
     try {
