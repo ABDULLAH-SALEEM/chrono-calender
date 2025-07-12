@@ -13,6 +13,7 @@ import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop";
 import "@schedule-x/theme-shadcn/dist/index.css";
 import Dialog from "@mui/material/Dialog";
 import EventForm from "../components/EventForm";
+import EventSearch from "../components/EventSearch";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Button from "@mui/material/Button";
@@ -41,6 +42,7 @@ const CalendarPage = () => {
   const dragAndDropPlugin = useState(() => createDragAndDropPlugin())[0];
   const [open, setOpen] = useState(false);
   const [editEvent, setEditEvent] = useState(null);
+  const [allEvents, setAllEvents] = useState([]);
   const notifiedEventsRef = useRef(new Set());
 
   const formatDate = (date) => {
@@ -141,6 +143,7 @@ const CalendarPage = () => {
           : {}),
       }));
       eventsService.set(formattedEvents);
+      setAllEvents(formattedEvents);
     } catch (error) {
       console.error("Failed to fetch events:", error);
     }
@@ -200,6 +203,15 @@ const CalendarPage = () => {
     }
   };
 
+  const handleEventSelect = (selectedEvent) => {
+    setEditEvent({
+      ...selectedEvent,
+      start: selectedEvent.start ? new Date(selectedEvent.start) : null,
+      end: selectedEvent.end ? new Date(selectedEvent.end) : null,
+    });
+    setOpen(true);
+  };
+
   const calendar = useCalendarApp({
     theme: "shadcn",
     views: [
@@ -244,7 +256,19 @@ const CalendarPage = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Box
+        display={"flex"}
+        gap={2}
+        justifyContent={"flex-end"}
+        mt={-5}
+        mb={2}
+        flexWrap={"wrap"}
+      >
+        <EventSearch
+          events={allEvents}
+          onEventSelect={handleEventSelect}
+          placeholder="Search events by title, description, or tags..."
+        />
         <Button
           variant="contained"
           color="primary"
@@ -252,7 +276,6 @@ const CalendarPage = () => {
             setEditEvent(null);
             setOpen(true);
           }}
-          sx={{ mt: -6 }}
         >
           Add New Event
         </Button>
