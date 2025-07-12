@@ -103,6 +103,7 @@ const CalendarPage = () => {
         priority: ev.priority,
         recurring: ev.recurring,
         tags: ev.tags,
+        location: ev?.location || "",
         ...(ev.recurring
           ? {
               rrule:
@@ -228,6 +229,7 @@ const CalendarPage = () => {
             setEditEvent(null);
             setOpen(true);
           }}
+          sx={{ mt: -6 }}
         >
           Add New Event
         </Button>

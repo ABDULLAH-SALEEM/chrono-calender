@@ -29,4 +29,5 @@ public class UpdateEventRequest {
     private String recurring; // daily, weekly, monthly, or empty
     private List<String> tags;
     private List<String> userIds; // IDs of users to invite
+    private String location; // optional location field
 }

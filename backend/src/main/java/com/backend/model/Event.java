@@ -26,6 +26,8 @@ public class Event {
     private String recurring; // daily, weekly, monthly, or empty
     private List<String> tags;
 
+    private String location; // optional location field
+
     @DBRef
     private User owner;
 

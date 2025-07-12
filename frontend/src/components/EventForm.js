@@ -46,6 +46,7 @@ const schema = yup.object().shape({
   priority: yup.string().oneOf(["", "high", "medium", "low", "critical"]),
   recurring: yup.string().oneOf(["", "daily", "weekly", "monthly"]),
   tags: yup.array().of(yup.string()).optional(),
+  location: yup.string().optional(), // new field
 });
 
 export default function EventForm({
@@ -69,6 +70,7 @@ export default function EventForm({
       priority: initialValues.priority || "",
       recurring: initialValues.recurring || "",
       tags: initialValues.tags || [],
+      location: initialValues.location || "", // new field
     },
     resolver: yupResolver(schema),
   });
@@ -103,6 +105,18 @@ export default function EventForm({
             minRows={3}
             placeholder="Event description"
             error={!!errors.description}
+          />
+
+          {/* Location Field */}
+          <CustomTextField
+            label="Location (optional)"
+            controller={{
+              control,
+              name: "location",
+              errors: errors.location?.message,
+            }}
+            placeholder="Event location"
+            error={!!errors.location}
           />
 
           <Controller

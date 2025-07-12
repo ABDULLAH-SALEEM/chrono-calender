@@ -42,6 +42,7 @@ public class EventService {
                 event.setPriority(request.getPriority());
                 event.setRecurring(request.getRecurring());
                 event.setTags(request.getTags());
+                event.setLocation(request.getLocation()); // set location
                 event.setOwner(owner);
                 event.setUsers(new ArrayList<>());
                 event.getUsers().add(owner); // Add owner to users list initially
@@ -152,6 +153,7 @@ public class EventService {
                 event.setPriority(request.getPriority());
                 event.setRecurring(request.getRecurring());
                 event.setTags(request.getTags());
+                event.setLocation(request.getLocation()); // set location
                 event.setUpdatedAt(LocalDateTime.now());
 
                 // Update invited users if provided

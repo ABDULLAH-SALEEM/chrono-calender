@@ -26,6 +26,7 @@ public class EventDTO {
     private List<UserDTO> users;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String location; // optional location field
 
     public static EventDTO fromEvent(Event event) {
         EventDTO dto = new EventDTO();
@@ -39,6 +40,7 @@ public class EventDTO {
         dto.setTags(event.getTags());
         dto.setCreatedAt(event.getCreatedAt());
         dto.setUpdatedAt(event.getUpdatedAt());
+        dto.setLocation(event.getLocation()); // map location
 
         if (event.getOwner() != null) {
             dto.setOwner(UserDTO.fromUser(event.getOwner()));
