@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import Box from "@mui/material/Box";
 import { useCalendarApp, ScheduleXCalendar } from "@schedule-x/react";
 import { createEventRecurrencePlugin } from "@schedule-x/event-recurrence";
+import { createCalendarControlsPlugin } from "@schedule-x/calendar-controls";
+
 import {
   createViewDay,
   createViewMonthAgenda,
@@ -39,6 +41,7 @@ function toLocalISOString(date) {
 const CalendarPage = () => {
   const { user } = useAuth();
   const eventsService = useState(() => createEventsServicePlugin())[0];
+  const calenderControls = useState(() => createCalendarControlsPlugin())[0];
   const dragAndDropPlugin = useState(() => createDragAndDropPlugin())[0];
   const [open, setOpen] = useState(false);
   const [editEvent, setEditEvent] = useState(null);
@@ -113,8 +116,31 @@ const CalendarPage = () => {
     try {
       const response = await eventService.getAllEvents();
       const backendEvents = response.data;
+      // Build dynamic calendars config based on unique colors
+      const colorToCalendarId = {};
+      const dynamicCalendars = {};
+      backendEvents.forEach((ev) => {
+        if (ev.color) {
+          const calendarId = `color-${ev.color.replace("#", "")}`;
+          colorToCalendarId[ev.color] = calendarId;
+          if (!dynamicCalendars[calendarId]) {
+            dynamicCalendars[calendarId] = {
+              colorName: calendarId,
+              lightColors: {
+                main: ev.color,
+                container: ev.color + "95", // add some transparency
+                onContainer: "#000000",
+              },
+              darkColors: {
+                main: ev.color,
+                container: ev.color + "40",
+                onContainer: "#ffffff",
+              },
+            };
+          }
+        }
+      });
 
-      console.log("backendEvents+++", backendEvents);
       const formattedEvents = backendEvents.map((ev) => ({
         id: ev.id,
         title: ev.title,
@@ -128,7 +154,7 @@ const CalendarPage = () => {
         tags: ev.tags,
         location: ev?.location || "",
         userIds: ev?.users || [],
-
+        calendarId: ev.color ? colorToCalendarId[ev.color] : "personal",
         ...(ev.recurring
           ? {
               rrule:
@@ -144,6 +170,7 @@ const CalendarPage = () => {
       }));
       eventsService.set(formattedEvents);
       setAllEvents(formattedEvents);
+      calenderControls.setCalendars(dynamicCalendars);
     } catch (error) {
       console.error("Failed to fetch events:", error);
     }
@@ -221,8 +248,13 @@ const CalendarPage = () => {
       createViewMonthAgenda(),
     ],
     defaultView: "week",
-    events: [],
-    plugins: [eventsService, dragAndDropPlugin, createEventRecurrencePlugin()],
+    events: allEvents,
+    plugins: [
+      eventsService,
+      dragAndDropPlugin,
+      createEventRecurrencePlugin(),
+      calenderControls,
+    ],
     eventDisplay: "block",
     callbacks: {
       onEventUpdate: async (event, e) => {
