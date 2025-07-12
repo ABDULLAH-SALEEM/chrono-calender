@@ -23,7 +23,6 @@ import { useAuth } from "../hooks/useAuth";
 
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon /> },
-  { text: "Profile", icon: <PersonIcon /> },
   { text: "Invitations", icon: <MailIcon /> },
   { text: "Settings", icon: <SettingsIcon /> },
 ];

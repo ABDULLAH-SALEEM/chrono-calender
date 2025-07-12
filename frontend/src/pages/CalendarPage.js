@@ -111,6 +111,8 @@ const CalendarPage = () => {
     try {
       const response = await eventService.getAllEvents();
       const backendEvents = response.data;
+
+      console.log("backendEvents+++", backendEvents);
       const formattedEvents = backendEvents.map((ev) => ({
         id: ev.id,
         title: ev.title,
@@ -123,6 +125,8 @@ const CalendarPage = () => {
         recurring: ev.recurring,
         tags: ev.tags,
         location: ev?.location || "",
+        userIds: ev?.users || [],
+
         ...(ev.recurring
           ? {
               rrule:

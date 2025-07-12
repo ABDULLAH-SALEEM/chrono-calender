@@ -16,14 +16,6 @@ const SIDEBAR_COLLAPSED_WIDTH = 68;
 const pageComponents = [
   { component: <CalendarPage key="dashboard" />, title: "Calender" }, // Dashboard
   {
-    component: (
-      <Box key="profile" p={4}>
-        <Typography variant="h4">Profile Page (Coming Soon)</Typography>
-      </Box>
-    ),
-    title: "Profile",
-  },
-  {
     component: <InvitationsPage key="invitations" />,
     title: "Invitations",
   },

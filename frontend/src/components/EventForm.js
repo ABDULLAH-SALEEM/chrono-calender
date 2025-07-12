@@ -95,7 +95,7 @@ export default function EventForm({
   const mapIdsToUserObjects = (ids) => {
     if (!Array.isArray(ids)) return [];
     return ids
-      .map((id) => allUsers.find((u) => u.value === id))
+      .map((user) => allUsers.find((u) => u.value === user.id))
       .filter(Boolean);
   };
 
@@ -120,7 +120,6 @@ export default function EventForm({
     resolver: yupResolver(schema),
   });
 
-  console.log("error", errors);
   // When allUsers changes, update userIds in form if needed
   useEffect(() => {
     if (initialValues.userIds && allUsers.length > 0) {
