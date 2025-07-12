@@ -15,94 +15,114 @@ import EventForm from "../components/EventForm";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Button from "@mui/material/Button";
+import { eventService } from "../services/apis";
+
+function formatDate(date) {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const hours = String(d.getHours()).padStart(2, "0");
+  const minutes = String(d.getMinutes()).padStart(2, "0");
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+function toLocalISOString(date) {
+  return (
+    date.getFullYear() +
+    "-" +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(date.getDate()).padStart(2, "0") +
+    "T" +
+    String(date.getHours()).padStart(2, "0") +
+    ":" +
+    String(date.getMinutes()).padStart(2, "0") +
+    ":" +
+    String(date.getSeconds()).padStart(2, "0")
+  );
+}
 
 const CalendarPage = () => {
   const eventsService = useState(() => createEventsServicePlugin())[0];
   const dragAndDropPlugin = useState(() => createDragAndDropPlugin())[0];
-  const initialEvents = [
-    {
-      id: "1",
-      title: "Team Meeting",
-      start: "2025-07-10 09:00",
-      end: "2025-07-10 10:00",
-      description:
-        "Weekly team sync meeting to discuss project progress and upcoming milestones",
-      color: "#667eea",
-      people: ["Abdullah", "Ali"],
-    },
-    {
-      id: "2",
-      title: "All Day Hackathon",
-      start: "2025-07-11 07:00",
-      end: "2025-07-11 11:00",
-      description: "A full day of coding and fun!",
-    },
-    {
-      id: "3",
-      title: "Lunch with Sarah",
-      start: "2025-07-12 12:00",
-      end: "2025-07-12 13:00",
-      description: "Catch up over lunch at the new restaurant downtown",
-    },
-    {
-      id: "4",
-      title: "Code Review",
-      start: "2025-07-15 14:00",
-      end: "2025-07-15 15:00",
-      description:
-        "Review pull requests and provide feedback to the development team",
-    },
-    {
-      id: "5",
-      title: "Product Planning",
-      start: "2025-07-16",
-      end: "2025-07-16",
-      description:
-        "Strategic planning session for Q2 product roadmap and feature prioritization",
-    },
-  ];
-
   const [open, setOpen] = useState(false);
-  const [events, setEvents] = useState(initialEvents);
   const [editEvent, setEditEvent] = useState(null);
 
-  const handleAddEvent = (data) => {
-    const newEvent = {
-      ...data,
-      id: (events.length + 1).toString(),
-      start:
-        data.start instanceof Date
-          ? data.start.toISOString().slice(0, 16).replace("T", " ")
-          : data.start,
-      end:
-        data.end instanceof Date
-          ? data.end.toISOString().slice(0, 16).replace("T", " ")
-          : data.end,
-    };
-    setEvents((prev) => [...prev, newEvent]);
-    calendar.events.add(newEvent);
-    setOpen(false);
+  const fetchEvents = async () => {
+    try {
+      const response = await eventService.getAllEvents();
+      const backendEvents = response.data;
+      const formattedEvents = backendEvents.map((ev) => ({
+        id: ev.id,
+        title: ev.title,
+        description: ev.description,
+        start: formatDate(ev.start),
+        end: formatDate(ev.end),
+        color: ev.color || "#667eea",
+        people: ev.users ? ev.users.map((u) => u.name) : [],
+        priority: ev.priority,
+        recurring: ev.recurring,
+        tags: ev.tags,
+      }));
+      eventsService.set(formattedEvents);
+    } catch (error) {
+      console.error("Failed to fetch events:", error);
+    }
   };
 
-  const handleUpdateEvent = (data) => {
-    setEvents((prev) =>
-      prev.map((ev) =>
-        ev.id === editEvent.id
-          ? { ...ev, ...data, start: data.start, end: data.end }
-          : ev
-      )
-    );
-    calendar.events.update({ ...editEvent, ...data });
-    setOpen(false);
-    setEditEvent(null);
+  const handleAddEvent = async (data) => {
+    try {
+      const newEvent = {
+        ...data,
+        start: toLocalISOString(data.start),
+        end: toLocalISOString(data.end),
+      };
+      const response = await eventService.createEvent(newEvent);
+      const createdEvent = response.data;
+      console.log(createdEvent);
+      await fetchEvents();
+      setOpen(false);
+    } catch (error) {
+      alert(
+        "Failed to add event: " +
+          (error.response?.data?.message || error.message)
+      );
+    }
   };
 
-  const handleDeleteEvent = () => {
+  const handleUpdateEvent = async (data) => {
+    try {
+      await eventService.updateEvent(editEvent.id, {
+        ...data,
+        start: toLocalISOString(data.start),
+        end: toLocalISOString(data.end),
+      });
+      await fetchEvents();
+      setOpen(false);
+      setEditEvent(null);
+    } catch (error) {
+      alert(
+        "Failed to update event: " +
+          (error.response?.data?.message || error.message)
+      );
+    }
+  };
+
+  const handleDeleteEvent = async () => {
     if (!editEvent) return;
-    setEvents((prev) => prev.filter((ev) => ev.id !== editEvent.id));
-    calendar.events.remove(editEvent.id);
-    setOpen(false);
-    setEditEvent(null);
+    try {
+      await eventService.deleteEvent(editEvent.id);
+      // Refresh the events list instead of manually removing
+      await fetchEvents();
+      setOpen(false);
+      setEditEvent(null);
+    } catch (error) {
+      alert(
+        "Failed to delete event: " +
+          (error.response?.data?.message || error.message)
+      );
+    }
   };
 
   const calendar = useCalendarApp({
@@ -114,13 +134,21 @@ const CalendarPage = () => {
       createViewMonthAgenda(),
     ],
     defaultView: "week",
-    events: events,
+    events: [],
     plugins: [eventsService, dragAndDropPlugin],
     eventDisplay: "block",
     callbacks: {
-      onEventUpdate: (event) => {
-        // Called after drag & drop or resize
-        eventsService.update(event);
+      onEventUpdate: async (event, e) => {
+        try {
+          const data = {
+            ...event,
+            start: toLocalISOString(new Date(event.start)),
+            end: toLocalISOString(new Date(event.end)),
+          };
+          await eventService.updateEvent(event.id, data);
+        } catch (error) {
+          console.log("erororor", error);
+        }
       },
       onEventClick: (event, e) => {
         setEditEvent({
@@ -134,11 +162,10 @@ const CalendarPage = () => {
     },
   });
 
+  // Fetch events from backend on mount
   useEffect(() => {
-    // Optionally fetch events from backend
-
-    eventsService.getAll();
-  }, [eventsService]);
+    fetchEvents();
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

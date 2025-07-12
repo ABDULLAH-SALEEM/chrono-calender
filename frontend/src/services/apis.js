@@ -25,10 +25,26 @@ export const authService = {
 };
 
 export const eventService = {
-  getAllEvents: () => api.get("/event"),
-  createEvent: (event) => api.post("/events", event),
-  updateEvent: (id, event) => api.put(`/events/${id}`, event),
-  deleteEvent: (id) => api.delete(`/events/${id}`),
+  // Get all events for the current user
+  getAllEvents: () => api.get("/events"),
+
+  // Get a specific event by ID
+  getEvent: (eventId) => api.get(`/events/${eventId}`),
+
+  // Create a new event
+  createEvent: (eventData) => api.post("/events", eventData),
+
+  // Update an existing event
+  updateEvent: (eventId, eventData) => api.put(`/events/${eventId}`, eventData),
+
+  // Delete an event
+  deleteEvent: (eventId) => api.delete(`/events/${eventId}`),
+
+  // Join an event
+  joinEvent: (eventId) => api.post(`/events/${eventId}/join`),
+
+  // Leave an event
+  leaveEvent: (eventId) => api.post(`/events/${eventId}/leave`),
 };
 
 export default api;

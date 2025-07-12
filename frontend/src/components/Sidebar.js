@@ -18,7 +18,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useAuth } from "../hooks/useAuth";
 
 const menuItems = [

@@ -72,7 +72,6 @@ export default function EventForm({
     },
     resolver: yupResolver(schema),
   });
-
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
@@ -182,7 +181,9 @@ export default function EventForm({
             render={({ field }) => (
               <TagSelector
                 value={field.value}
-                onChange={field.onChange}
+                onChange={(selected) =>
+                  field.onChange(selected.map((tag) => tag.value))
+                }
                 error={errors.tags?.message}
                 label="Tags"
               />
