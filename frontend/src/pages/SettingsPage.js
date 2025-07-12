@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Box,
@@ -14,21 +14,6 @@ import {
 } from "@mui/material";
 import CustomTextField from "../components/formFields/textField";
 import { authService } from "../services/apis";
-
-const TIMEZONES = [
-  "UTC",
-  "America/New_York",
-  "America/Chicago",
-  "America/Denver",
-  "America/Los_Angeles",
-  "Europe/London",
-  "Europe/Paris",
-  "Europe/Berlin",
-  "Asia/Kolkata",
-  "Asia/Tokyo",
-  "Asia/Shanghai",
-  "Australia/Sydney",
-];
 
 const SettingsPage = () => {
   // Change Password Form
@@ -77,23 +62,30 @@ const SettingsPage = () => {
     handleSubmit: handleTimezoneSubmit,
     control: timezoneControl,
     formState: { errors: timezoneErrors },
+    reset: resetTimezoneForm,
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      timezone: TIMEZONES[0],
+      timezone: "Europe/Berlin",
     },
   });
   const [timezoneMsg, setTimezoneMsg] = useState("");
   const [timezoneLoading, setTimezoneLoading] = useState(false);
 
-  const onChangeTimezone = (data) => {
-    setTimezoneLoading(true);
-    setTimezoneMsg("");
-    // Here you would call an API if backend supported it
-    setTimeout(() => {
-      setTimezoneMsg(`Timezone updated to ${data.timezone}`);
+  const onChangeTimezone = async (data) => {
+    try {
+      setTimezoneLoading(true);
+      setTimezoneMsg("");
+      await authService.updateTimezone(data);
+      resetTimezoneForm();
+      setTimezoneMsg("Timezone updated successfully.");
+    } catch (err) {
+      setTimezoneMsg(
+        err?.response?.data?.message || "Failed to update timezone."
+      );
+    } finally {
       setTimezoneLoading(false);
-    }, 800);
+    }
   };
 
   return (
@@ -221,7 +213,7 @@ const SettingsPage = () => {
                       labelId="timezone-label"
                       label="Timezone"
                     >
-                      {TIMEZONES.map((tz) => (
+                      {Intl.supportedValuesOf("timeZone").map((tz) => (
                         <MenuItem key={tz} value={tz}>
                           {tz}
                         </MenuItem>

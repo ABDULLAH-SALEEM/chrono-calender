@@ -53,4 +53,17 @@ public class AuthService {
         logger.info("User found: {}", user.getEmail());
         return user;
     }
+
+    public void changePassword(String email, String currentPassword, String newPassword) {
+        logger.info("Changing password for user: {}", email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            logger.error("Current password does not match for user: {}", email);
+            throw new RuntimeException("Current password is incorrect");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        logger.info("Password changed successfully for user: {}", email);
+    }
 }

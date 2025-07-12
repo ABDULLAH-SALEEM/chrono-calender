@@ -3,6 +3,7 @@ package com.backend.controller;
 import com.backend.dto.LoginRequest;
 import com.backend.dto.RegisterRequest;
 import com.backend.dto.UserDTO;
+import com.backend.dto.ChangePasswordRequest;
 import com.backend.model.User;
 import com.backend.service.AuthService;
 import com.backend.service.JwtService;
@@ -96,5 +97,22 @@ public class AuthController {
         String email = jwtService.extractUsername(token.substring(7));
         User user = authService.findByEmail(email);
         return ResponseEntity.ok(UserDTO.fromUser(user));
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<?> changePassword(@RequestHeader("Authorization") String token,
+            @Valid @RequestBody ChangePasswordRequest request) {
+        try {
+            String email = jwtService.extractUsername(token.substring(7));
+            authService.changePassword(email, request.getCurrentPassword(), request.getNewPassword());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Password changed successfully");
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            logger.error("Password change failed: {}", e.getMessage());
+            Map<String, String> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 }
