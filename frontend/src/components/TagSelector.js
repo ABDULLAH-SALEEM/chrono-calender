@@ -22,8 +22,11 @@ const defaultTags = [
 const TagSelector = ({ value = [], onChange, error, label = "Tags" }) => {
   const [inputValue, setInputValue] = useState("");
 
+  // Ensure value is always an array
+  const safeValue = Array.isArray(value) ? value : [];
+
   const handleChange = (event, newValue) => {
-    onChange(newValue);
+    onChange(newValue || []);
   };
 
   const handleInputChange = (event, newInputValue) => {
@@ -36,7 +39,7 @@ const TagSelector = ({ value = [], onChange, error, label = "Tags" }) => {
         multiple
         freeSolo
         options={defaultTags}
-        value={value}
+        value={safeValue}
         onChange={handleChange}
         inputValue={inputValue}
         onInputChange={handleInputChange}
@@ -64,6 +67,12 @@ const TagSelector = ({ value = [], onChange, error, label = "Tags" }) => {
                 label={label}
                 {...getTagProps({ index })}
                 key={index}
+                onClick={(event) => {
+                  // Prevent the default behavior and call onChange directly
+                  event.stopPropagation();
+                  const newValue = value.filter((_, i) => i !== index);
+                  onChange(newValue);
+                }}
               />
             );
           })

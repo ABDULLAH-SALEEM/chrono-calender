@@ -145,10 +145,16 @@ export default function EventForm({
   const handleCopyLink = () => {
     if (eventId) {
       const link = `${window.location.origin}/events/${eventId}/join`;
-      navigator.clipboard.writeText(link).then(() => {
-        // You could add a toast notification here
-        alert("Event link copied to clipboard!");
-      });
+      navigator.clipboard
+        .writeText(link)
+        .then(() => {
+          // You could add a toast notification here
+          alert("Event link copied to clipboard!");
+        })
+        .catch((error) => {
+          console.error("Failed to copy link:", error);
+          alert("Failed to copy link to clipboard");
+        });
     }
   };
 
@@ -370,6 +376,8 @@ export default function EventForm({
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Grid>
               {submitLabel === "Update" &&
+                user?.id &&
+                initialValues?.owner?.id &&
                 user.id === initialValues.owner.id && (
                   <>
                     <Button
@@ -396,7 +404,9 @@ export default function EventForm({
                 Cancel
               </Button>
               {(submitLabel === "Create" ||
-                user?.id === initialValues?.owner?.id) && (
+                (user?.id &&
+                  initialValues?.owner?.id &&
+                  user.id === initialValues.owner.id)) && (
                 <Button
                   type="submit"
                   variant="contained"

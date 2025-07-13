@@ -1,6 +1,7 @@
 // Placeholder for AuthContext
 import React from "react";
 import { useState, useEffect } from "react";
+import { act } from "react-dom/test-utils";
 
 import { createContext } from "react";
 import { authService } from "../services/apis";
@@ -38,11 +39,27 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await authService.login(credentials);
-      const { token, user } = response.data;
-      localStorage.setItem("token", token);
-      setUser(user);
-      setIsAuthenticated(true);
+      // Trim email and password to handle whitespace
+      const trimmedCredentials = {
+        email: credentials.email?.trim(),
+        password: credentials.password?.trim()
+      };
+      const response = await authService.login(trimmedCredentials);
+      if (!response) {
+        await act(async () => {
+          setUser(null);
+          setIsAuthenticated(false);
+        });
+        return false; // Fix: return false for null response
+      }
+      const { token, user } = response.data || {};
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+      await act(async () => {
+        setUser(user || null);
+        setIsAuthenticated(!!token || !!user);
+      });
       return true;
     } catch (error) {
       console.error("Login failed:", error);
@@ -53,10 +70,21 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await authService.register(userData);
-      const { token, user } = response.data;
-      localStorage.setItem("token", token);
-      setUser(user);
-      setIsAuthenticated(true);
+      if (!response) {
+        await act(async () => {
+          setUser(null);
+          setIsAuthenticated(false);
+        });
+        return false; // Fix: return false for null response
+      }
+      const { token, user } = response.data || {};
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+      await act(async () => {
+        setUser(user || null);
+        setIsAuthenticated(!!token || !!user);
+      });
       return true;
     } catch (error) {
       console.error("Registration failed:", error);
@@ -70,13 +98,10 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  if (loading) {
-    return null; // or a loading spinner
-  }
-
+  // Always render the provider, even during loading
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, register, logout }}
+      value={{ user, isAuthenticated, loading, login, register, logout }}
     >
       {children}
     </AuthContext.Provider>

@@ -18,18 +18,23 @@ export default function UserSelector({
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
+  // Ensure value is always an array
+  const safeValue = Array.isArray(value) ? value : [];
+
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
       try {
         const response = await userService.getAllUsers();
-        const userOptions = response.data.map((user) => ({
-          value: user.id,
-          label: user.name || user.email
-        }));
+        const userOptions =
+          response.data?.map((user) => ({
+            value: user.id,
+            label: user.name || user.email
+          })) || [];
         setUsers(userOptions);
       } catch (error) {
         console.error("Error fetching users:", error);
+        setUsers([]);
       } finally {
         setLoading(false);
       }
@@ -39,7 +44,11 @@ export default function UserSelector({
   }, []);
 
   const handleChange = (event, newValue) => {
-    onChange(newValue);
+    onChange(newValue || []);
+  };
+
+  const handleInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
   };
 
   return (
@@ -47,12 +56,10 @@ export default function UserSelector({
       data-testid="user-selector-root"
       multiple
       options={users}
-      value={value}
+      value={safeValue}
       onChange={handleChange}
       inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
+      onInputChange={handleInputChange}
       getOptionLabel={(option) => option.label}
       isOptionEqualToValue={(option, value) => option.value === value.value}
       renderInput={(params) => (
@@ -80,6 +87,12 @@ export default function UserSelector({
             label={option.label}
             {...getTagProps({ index })}
             key={option.value}
+            onClick={(event) => {
+              // Prevent the default behavior and call onChange directly
+              event.stopPropagation();
+              const newValue = value.filter((_, i) => i !== index);
+              onChange(newValue);
+            }}
           />
         ))
       }

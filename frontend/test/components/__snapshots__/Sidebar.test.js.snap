@@ -3,11 +3,11 @@
 exports[`Sidebar matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root css-1knf5ix"
+    class="MuiBox-root css-1cyt1mf"
     data-testid="sidebar-root"
   >
     <div
-      class="MuiBox-root css-26juwx"
+      class="MuiBox-root css-fycgp9"
     >
       <div
         class="MuiBox-root css-1rux0hy"
@@ -33,12 +33,12 @@ exports[`Sidebar matches snapshot 1`] = `
             class="MuiListItem-root MuiListItem-gutters css-1li41ks-MuiListItem-root"
           >
             <div
-              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-10gmc14-MuiButtonBase-root-MuiListItemButton-root"
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-pm5ggk-MuiButtonBase-root-MuiListItemButton-root"
               role="button"
               tabindex="0"
             >
               <div
-                class="MuiListItemIcon-root css-1jer7cf-MuiListItemIcon-root"
+                class="MuiListItemIcon-root css-w5m6wr-MuiListItemIcon-root"
               >
                 <svg
                   aria-hidden="true"
@@ -67,12 +67,12 @@ exports[`Sidebar matches snapshot 1`] = `
             class="MuiListItem-root MuiListItem-gutters css-1li41ks-MuiListItem-root"
           >
             <div
-              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-10doeu5-MuiButtonBase-root-MuiListItemButton-root"
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-nlckjd-MuiButtonBase-root-MuiListItemButton-root"
               role="button"
               tabindex="0"
             >
               <div
-                class="MuiListItemIcon-root css-1qjclwt-MuiListItemIcon-root"
+                class="MuiListItemIcon-root css-17vitqo-MuiListItemIcon-root"
               >
                 <svg
                   aria-hidden="true"
@@ -101,12 +101,12 @@ exports[`Sidebar matches snapshot 1`] = `
             class="MuiListItem-root MuiListItem-gutters css-1li41ks-MuiListItem-root"
           >
             <div
-              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-10doeu5-MuiButtonBase-root-MuiListItemButton-root"
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-nlckjd-MuiButtonBase-root-MuiListItemButton-root"
               role="button"
               tabindex="0"
             >
               <div
-                class="MuiListItemIcon-root css-1qjclwt-MuiListItemIcon-root"
+                class="MuiListItemIcon-root css-17vitqo-MuiListItemIcon-root"
               >
                 <svg
                   aria-hidden="true"

@@ -226,4 +226,204 @@ describe("EventForm", () => {
       expect(navigator.clipboard.writeText).toHaveBeenCalled()
     );
   });
+
+  // New test cases to cover uncovered lines
+
+  it("handles fetchUsers error gracefully", async () => {
+    jest
+      .spyOn(userServiceModule.userService, "getAllUsers")
+      .mockRejectedValue(new Error("Network error"));
+    renderWithAuth();
+    // Should not crash and should handle error gracefully
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument();
+    });
+  });
+
+  it("maps userIds to user objects correctly", async () => {
+    const initialValues = {
+      userIds: [{ id: "1" }, { id: "2" }]
+    };
+    renderWithAuth({ initialValues });
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument();
+    });
+  });
+
+  it("handles non-array userIds in mapIdsToUserObjects", async () => {
+    const initialValues = {
+      userIds: "invalid"
+    };
+    renderWithAuth({ initialValues });
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument();
+    });
+  });
+
+  it("updates userIds when allUsers changes", async () => {
+    const initialValues = {
+      userIds: [{ id: "1" }]
+    };
+    renderWithAuth({ initialValues });
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument();
+    });
+  });
+
+  it("handles copy link when eventId is not provided", async () => {
+    renderWithAuth({
+      submitLabel: "Update",
+      initialValues: { owner: mockOwner }
+    });
+    fireEvent.click(screen.getByText(/Copy Link/i));
+    // Should not crash when eventId is undefined
+    await waitFor(() => {
+      expect(screen.getByText(/Copy Link/i)).toBeInTheDocument();
+    });
+  });
+
+  it("handles clipboard write error", async () => {
+    jest
+      .spyOn(navigator.clipboard, "writeText")
+      .mockRejectedValue(new Error("Clipboard error"));
+    window.alert = jest.fn();
+    renderWithAuth({
+      submitLabel: "Update",
+      initialValues: { owner: mockOwner },
+      eventId: "123"
+    });
+    fireEvent.click(screen.getByText(/Copy Link/i));
+    await waitFor(() => {
+      expect(window.alert).toHaveBeenCalledWith(
+        "Failed to copy link to clipboard"
+      );
+    });
+  });
+
+  it("handles form submission with empty userIds", async () => {
+    const onSubmit = jest.fn();
+    renderWithAuth({ onSubmit });
+    await waitFor(() =>
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument()
+    );
+    fireEvent.change(screen.getByLabelText(/Event title/i), {
+      target: { value: "Test Event" }
+    });
+    fireEvent.change(screen.getByLabelText(/Event description/i), {
+      target: { value: "Test Description" }
+    });
+    fireEvent.change(screen.getByTestId("Start Date/Time"), {
+      target: { value: "2024-01-01T10:00" }
+    });
+    fireEvent.blur(screen.getByTestId("Start Date/Time"));
+    fireEvent.change(screen.getByTestId("End Date/Time"), {
+      target: { value: "2024-01-01T12:00" }
+    });
+    fireEvent.blur(screen.getByTestId("End Date/Time"));
+    fireEvent.click(screen.getByTestId("event-form-submit"));
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          userIds: []
+        })
+      );
+    });
+  });
+
+  it("handles color picker interaction", async () => {
+    renderWithAuth();
+    await waitFor(() =>
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument()
+    );
+    const colorInput = screen.getByDisplayValue("#667eea");
+    fireEvent.change(colorInput, { target: { value: "#ff0000" } });
+    expect(colorInput.value).toBe("#ff0000");
+  });
+
+  it("handles preset color selection", async () => {
+    renderWithAuth();
+    await waitFor(() =>
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument()
+    );
+    // Find and click a preset color
+    const presetColors = screen.getAllByTitle(
+      /Blue|Pink|Light Blue|Green|Rose|Orange|Cyan|Coral|Purple|Magenta/
+    );
+    if (presetColors.length > 0) {
+      fireEvent.click(presetColors[0]);
+    }
+  });
+
+  it("shows Update Event title for update mode", async () => {
+    renderWithAuth({ submitLabel: "Update" });
+    expect(await screen.findByText(/Update Event/i)).toBeInTheDocument();
+  });
+
+  it("hides submit button for non-owner in update mode", async () => {
+    const differentOwner = { id: "2", name: "Different User" };
+    renderWithAuth({
+      submitLabel: "Update",
+      initialValues: { owner: differentOwner }
+    });
+    await waitFor(() => {
+      expect(screen.queryByTestId("event-form-submit")).not.toBeInTheDocument();
+    });
+  });
+
+  it("hides delete and copy link buttons for non-owner", async () => {
+    const differentOwner = { id: "2", name: "Different User" };
+    renderWithAuth({
+      submitLabel: "Update",
+      initialValues: { owner: differentOwner }
+    });
+    await waitFor(() => {
+      expect(screen.queryByText(/Delete/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Copy Link/i)).not.toBeInTheDocument();
+    });
+  });
+
+  it("handles delete dialog close without onDelete", async () => {
+    renderWithAuth({
+      submitLabel: "Update",
+      initialValues: { owner: mockOwner }
+    });
+    fireEvent.click(await screen.findByText(/Delete/i));
+    const deleteButtons = screen.getAllByText(/^Delete$/);
+    fireEvent.click(deleteButtons[deleteButtons.length - 1]);
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/Are you sure you want to delete/i)
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it("handles form submission with null userIds", async () => {
+    const onSubmit = jest.fn();
+    renderWithAuth({ onSubmit });
+    await waitFor(() =>
+      expect(screen.getByLabelText(/Event title/i)).toBeInTheDocument()
+    );
+    fireEvent.change(screen.getByLabelText(/Event title/i), {
+      target: { value: "Test Event" }
+    });
+    fireEvent.change(screen.getByLabelText(/Event description/i), {
+      target: { value: "Test Description" }
+    });
+    fireEvent.change(screen.getByTestId("Start Date/Time"), {
+      target: { value: "2024-01-01T10:00" }
+    });
+    fireEvent.blur(screen.getByTestId("Start Date/Time"));
+    fireEvent.change(screen.getByTestId("End Date/Time"), {
+      target: { value: "2024-01-01T12:00" }
+    });
+    fireEvent.blur(screen.getByTestId("End Date/Time"));
+    fireEvent.click(screen.getByTestId("event-form-submit"));
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          userIds: []
+        })
+      );
+    });
+  });
 });

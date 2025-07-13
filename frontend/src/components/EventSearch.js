@@ -73,12 +73,21 @@ const EventSearch = ({
 
   const getEventPreview = (event) => {
     const timeStr = formatEventTime(event.start);
+    const tagsArr = Array.isArray(event.tags) ? event.tags : [];
     const tagsStr =
-      event.tags && event.tags.length > 0
-        ? ` • ${event.tags.slice(0, 2).join(", ")}${event.tags.length > 2 ? "..." : ""}`
+      tagsArr.length > 0
+        ? ` • ${tagsArr.slice(0, 2).join(", ")}${tagsArr.length > 2 ? "..." : ""}`
         : "";
 
     return `${timeStr}${tagsStr}`;
+  };
+
+  // Determine the no options text based on search state
+  const getNoOptionsText = () => {
+    if (!searchValue.trim()) {
+      return "Type to search events...";
+    }
+    return "No events found";
   };
 
   return (
@@ -93,7 +102,7 @@ const EventSearch = ({
         options={filteredEvents}
         getOptionLabel={(option) => {
           if (typeof option === "string") return option;
-          return option.title || "";
+          return option.title || option.description || "";
         }}
         inputValue={searchValue}
         onInputChange={(event, newInputValue) => {
@@ -133,7 +142,7 @@ const EventSearch = ({
               <EventIcon sx={{ mr: 1, mt: 0.5, color: "primary.main" }} />
               <Box sx={{ flex: 1, minWidth: 0 }}>
                 <Typography variant="body2" noWrap sx={{ fontWeight: 500 }}>
-                  {option.title}
+                  {option.title || option.description}
                 </Typography>
                 <Typography
                   variant="caption"
@@ -147,7 +156,7 @@ const EventSearch = ({
                 >
                   {getEventPreview(option)}
                 </Typography>
-                {option.tags && option.tags.length > 0 && (
+                {Array.isArray(option.tags) && option.tags.length > 0 && (
                   <Box
                     sx={{
                       mt: 0.5,
@@ -187,9 +196,7 @@ const EventSearch = ({
             </Box>
           </Box>
         )}
-        noOptionsText={
-          searchValue.trim() ? "No events found" : "Type to search events..."
-        }
+        noOptionsText={getNoOptionsText()}
         sx={{
           "& .MuiAutocomplete-paper": {
             maxHeight: "300px"

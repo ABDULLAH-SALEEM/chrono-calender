@@ -27,7 +27,12 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      const success = await login(data);
+      // Trim email and password to handle whitespace
+      const trimmedData = {
+        email: data.email?.trim(),
+        password: data.password?.trim()
+      };
+      const success = await login(trimmedData);
       if (success) {
         navigate("/");
       } else {
