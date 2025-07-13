@@ -263,6 +263,7 @@ const CalendarPage = () => {
             ...event,
             start: toLocalISOString(new Date(event.start)),
             end: toLocalISOString(new Date(event.end)),
+            userIds: event.userIds.map((user) => user.id),
           };
           await eventService.updateEvent(event.id, data);
         } catch (error) {
