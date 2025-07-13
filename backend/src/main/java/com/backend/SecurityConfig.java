@@ -29,6 +29,12 @@ public class SecurityConfig {
         private final UserDetailsService userDetailsService;
 
         public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserDetailsService userDetailsService) {
+                if (jwtAuthFilter == null) {
+                        throw new NullPointerException("jwtAuthFilter must not be null");
+                }
+                if (userDetailsService == null) {
+                        throw new NullPointerException("userDetailsService must not be null");
+                }
                 this.jwtAuthFilter = jwtAuthFilter;
                 this.userDetailsService = userDetailsService;
         }
