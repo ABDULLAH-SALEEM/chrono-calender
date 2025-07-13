@@ -33,7 +33,7 @@
     "start": "react-scripts start",
     "lint": "eslint src --ext .js,.jsx",
     "lint:fix": "eslint src --fix",
-    "build": "GENERATE_SOURCEMAP=false craco build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "eject": "react-scripts eject"
