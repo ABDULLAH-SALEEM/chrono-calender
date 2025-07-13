@@ -1,3 +1,5 @@
 import React from "react";
-const Reminder = () => <div>Reminder Component</div>;
+const Reminder = () => (
+  <div data-testid="reminder-root">Reminder Component</div>
+);
 export default Reminder;

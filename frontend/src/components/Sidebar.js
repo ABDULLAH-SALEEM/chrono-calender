@@ -228,6 +228,7 @@ export default function Sidebar({ selected = 0, onSelect, collapsed }) {
         </>
       ) : (
         <Box
+          data-testid="sidebar-root"
           sx={{
             width: collapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_WIDTH,
             height: "100vh",

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventList matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    Event List Component
+  </div>
+</DocumentFragment>
+`;

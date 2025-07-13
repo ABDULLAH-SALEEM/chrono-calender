@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sidebar matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-1knf5ix"
+    data-testid="sidebar-root"
+  >
+    <div
+      class="MuiBox-root css-26juwx"
+    >
+      <div
+        class="MuiBox-root css-1rux0hy"
+      >
+        <img
+          alt="Chrono Logo"
+          src="/logo192.png"
+          style="width: 32px; height: 32px; object-fit: contain; margin-right: 8px; display: block;"
+        />
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-y5n0s1-MuiTypography-root"
+        >
+          Chrono
+        </h6>
+      </div>
+      <div
+        class="MuiBox-root css-1y2kpw7"
+      >
+        <ul
+          class="MuiList-root MuiList-padding css-b7dj7n-MuiList-root"
+        >
+          <li
+            class="MuiListItem-root MuiListItem-gutters css-1li41ks-MuiListItem-root"
+          >
+            <div
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-10gmc14-MuiButtonBase-root-MuiListItemButton-root"
+              role="button"
+              tabindex="0"
+            >
+              <div
+                class="MuiListItemIcon-root css-1jer7cf-MuiListItemIcon-root"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="DashboardIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiListItemText-root css-cfq8qh-MuiListItemText-root"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-1u7zyji-MuiTypography-root"
+                >
+                  Dashboard
+                </p>
+              </div>
+            </div>
+          </li>
+          <li
+            class="MuiListItem-root MuiListItem-gutters css-1li41ks-MuiListItem-root"
+          >
+            <div
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-10doeu5-MuiButtonBase-root-MuiListItemButton-root"
+              role="button"
+              tabindex="0"
+            >
+              <div
+                class="MuiListItemIcon-root css-1qjclwt-MuiListItemIcon-root"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="MailIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4-8 5-8-5V6l8 5 8-5z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiListItemText-root css-cfq8qh-MuiListItemText-root"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-sh1c8h-MuiTypography-root"
+                >
+                  Invitations
+                </p>
+              </div>
+            </div>
+          </li>
+          <li
+            class="MuiListItem-root MuiListItem-gutters css-1li41ks-MuiListItem-root"
+          >
+            <div
+              class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-10doeu5-MuiButtonBase-root-MuiListItemButton-root"
+              role="button"
+              tabindex="0"
+            >
+              <div
+                class="MuiListItemIcon-root css-1qjclwt-MuiListItemIcon-root"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                  data-testid="SettingsIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiListItemText-root css-cfq8qh-MuiListItemText-root"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-sh1c8h-MuiTypography-root"
+                >
+                  Settings
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="MuiBox-root css-1kw89le"
+      >
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
+        />
+        <div
+          class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-15xc6h4-MuiButtonBase-root-MuiListItemButton-root"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="MuiListItemIcon-root css-pkhrhz-MuiListItemIcon-root"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="LogoutIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="m17 7-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z"
+              />
+            </svg>
+          </div>
+          <div
+            class="MuiListItemText-root css-cfq8qh-MuiListItemText-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-1u7zyji-MuiTypography-root"
+            >
+              Sign Out
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

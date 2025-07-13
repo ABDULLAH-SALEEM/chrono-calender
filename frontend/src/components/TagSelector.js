@@ -31,7 +31,7 @@ const TagSelector = ({ value = [], onChange, error, label = "Tags" }) => {
   };
 
   return (
-    <Box>
+    <Box data-testid="tag-selector-root">
       <Autocomplete
         multiple
         freeSolo

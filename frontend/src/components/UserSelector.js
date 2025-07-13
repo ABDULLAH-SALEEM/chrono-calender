@@ -44,6 +44,7 @@ export default function UserSelector({
 
   return (
     <Autocomplete
+      data-testid="user-selector-root"
       multiple
       options={users}
       value={value}
