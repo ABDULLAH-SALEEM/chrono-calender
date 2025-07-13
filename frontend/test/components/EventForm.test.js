@@ -96,21 +96,19 @@ describe("EventForm", () => {
     const textboxes = screen.getAllByRole("textbox");
     fireEvent.blur(textboxes[0]); // start date
     fireEvent.blur(textboxes[1]); // end date
+    // Simulate submit
     fireEvent.click(screen.getByTestId("event-form-submit"));
-    await waitFor(() => {
-      if (
-        !hasHelperText("Title is required") ||
-        !hasHelperText("Description is required") ||
-        !hasHelperText("Start date/time is required") ||
-        !hasHelperText("End date/time is required")
-      ) {
-        logAllHelperTexts();
-      }
-      expect(hasHelperText("Title is required")).toBe(true);
-      expect(hasHelperText("Description is required")).toBe(true);
-      expect(hasHelperText("Start date/time is required")).toBe(true);
-      expect(hasHelperText("End date/time is required")).toBe(true);
-    });
+    // Check for each specific error message
+    expect(await screen.findByText("Title is required")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Description is required")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Start date/time is required")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("End date/time is required")
+    ).toBeInTheDocument();
   });
 
   it("submits form with valid data", async () => {

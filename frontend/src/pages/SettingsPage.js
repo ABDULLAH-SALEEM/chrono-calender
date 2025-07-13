@@ -157,6 +157,7 @@ const SettingsPage = () => {
 
             {passwordMsg && (
               <Typography
+                data-testid="password-error-msg"
                 color={
                   passwordMsg.includes("success")
                     ? "success.main"
