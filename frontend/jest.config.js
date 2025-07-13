@@ -17,7 +17,7 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      lines: 80
+      lines: 90
     }
   },
   testMatch: ["<rootDir>/test/**/*.test.js", "<rootDir>/test/**/*.spec.js"],
