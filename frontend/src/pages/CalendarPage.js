@@ -142,6 +142,7 @@ const CalendarPage = () => {
       });
 
       const formattedEvents = backendEvents.map((ev) => ({
+        ...ev,
         id: ev.id,
         title: ev.title,
         description: ev.description,

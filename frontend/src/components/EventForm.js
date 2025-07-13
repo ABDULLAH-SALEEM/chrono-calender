@@ -19,6 +19,7 @@ import CustomTextField from "./formFields/textField";
 import TagSelector from "./TagSelector";
 import UserSelector from "./UserSelector";
 import { userService } from "../services/apis";
+import { useAuth } from "../hooks/useAuth";
 
 const priorities = [
   { value: "high", label: "High" },
@@ -85,7 +86,9 @@ export default function EventForm({
 }) {
   const [allUsers, setAllUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
+  const { user } = useAuth();
 
+  console.log("initialValues_++", initialValues);
   useEffect(() => {
     const fetchUsers = async () => {
       setUsersLoading(true);
@@ -370,34 +373,37 @@ export default function EventForm({
           />
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Grid>
-              {submitLabel === "Update" && (
-                <>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    onClick={() => setDeleteDialogOpen(true)}
-                    sx={{ mr: 1 }}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={handleCopyLink}
-                    startIcon={<ContentCopyIcon />}
-                  >
-                    Copy Link
-                  </Button>
-                </>
-              )}
+              {submitLabel === "Update" &&
+                user.id === initialValues.owner.id && (
+                  <>
+                    <Button
+                      color="error"
+                      variant="contained"
+                      onClick={() => setDeleteDialogOpen(true)}
+                      sx={{ mr: 1 }}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      onClick={handleCopyLink}
+                      startIcon={<ContentCopyIcon />}
+                    >
+                      Copy Link
+                    </Button>
+                  </>
+                )}
             </Grid>
 
             <Stack direction="row" spacing={1} justifyContent="flex-end">
               <Button onClick={onCancel} color="error" variant="outlined">
                 Cancel
               </Button>
-              <Button type="submit" variant="contained" color="primary">
-                {submitLabel}
-              </Button>
+              {user?.id === initialValues?.owner?.id && (
+                <Button type="submit" variant="contained" color="primary">
+                  {submitLabel}
+                </Button>
+              )}
             </Stack>
           </Stack>
         </Stack>
