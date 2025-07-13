@@ -293,6 +293,7 @@ const CalendarPage = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
+        data-testid="calendar-page"
         display={"flex"}
         gap={2}
         justifyContent={"flex-end"}
