@@ -44,8 +44,8 @@ const presetColors = [
   { value: "#ffecd2", label: "Orange" },
   { value: "#a8edea", label: "Cyan" },
   { value: "#ff9a9e", label: "Coral" },
-  { value: "#667eea", label: "Purple" },
-  { value: "#f093fb", label: "Magenta" }
+  { value: "#6a89cc", label: "Purple" }, // changed from #667eea
+  { value: "#b8e994", label: "Magenta" } // changed from #f093fb
 ];
 
 const schema = yup.object().shape({
@@ -395,8 +395,14 @@ export default function EventForm({
               <Button onClick={onCancel} color="error" variant="outlined">
                 Cancel
               </Button>
-              {user?.id === initialValues?.owner?.id && (
-                <Button type="submit" variant="contained" color="primary">
+              {(submitLabel === "Create" ||
+                user?.id === initialValues?.owner?.id) && (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  data-testid="event-form-submit"
+                >
                   {submitLabel}
                 </Button>
               )}

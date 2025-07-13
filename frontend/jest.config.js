@@ -21,5 +21,7 @@ module.exports = {
     }
   },
   testMatch: ["<rootDir>/test/**/*.test.js", "<rootDir>/test/**/*.spec.js"],
-  transformIgnorePatterns: ["/node_modules/(?!(axios)/)"]
+  transformIgnorePatterns: [
+    "/node_modules/(?!(axios|date-fns|@mui/x-date-pickers)/)"
+  ]
 };
