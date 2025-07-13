@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Card,
@@ -8,7 +8,7 @@ import {
   Stack,
   Chip,
   CircularProgress,
-  Alert,
+  Alert
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { eventService } from "../services/apis";
@@ -22,11 +22,7 @@ export default function EventJoinPage() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    fetchEventDetails();
-  }, [eventId]);
-
-  const fetchEventDetails = async () => {
+  const fetchEventDetails = useCallback(async () => {
     try {
       setLoading(true);
       const response = await eventService.getEvent(eventId);
@@ -39,7 +35,11 @@ export default function EventJoinPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [eventId]);
+
+  useEffect(() => {
+    fetchEventDetails();
+  }, [fetchEventDetails]);
 
   const handleJoinEvent = async () => {
     try {

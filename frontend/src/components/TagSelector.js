@@ -5,7 +5,7 @@ import {
   TextField,
   Autocomplete,
   Typography,
-  FormHelperText,
+  FormHelperText
 } from "@mui/material";
 
 const defaultTags = [
@@ -16,7 +16,7 @@ const defaultTags = [
   { label: "Appointment", value: "appointment" },
   { label: "Birthday", value: "birthday" },
   { label: "Holiday", value: "holiday" },
-  { label: "Travel", value: "travel" },
+  { label: "Travel", value: "travel" }
 ];
 
 const TagSelector = ({ value = [], onChange, error, label = "Tags" }) => {

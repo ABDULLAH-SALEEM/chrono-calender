@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import Box from "@mui/material/Box";
 import { useCalendarApp, ScheduleXCalendar } from "@schedule-x/react";
 import { createEventRecurrencePlugin } from "@schedule-x/event-recurrence";
@@ -8,7 +8,7 @@ import {
   createViewDay,
   createViewMonthAgenda,
   createViewMonthGrid,
-  createViewWeek,
+  createViewWeek
 } from "@schedule-x/calendar";
 import { createEventsServicePlugin } from "@schedule-x/events-service";
 import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop";
@@ -38,42 +38,18 @@ function toLocalISOString(date) {
   );
 }
 
+const eventsService = createEventsServicePlugin();
+const calenderControls = createCalendarControlsPlugin();
+const dragAndDropPlugin = createDragAndDropPlugin();
+
 const CalendarPage = () => {
   const { user } = useAuth();
-  const eventsService = useState(() => createEventsServicePlugin())[0];
-  const calenderControls = useState(() => createCalendarControlsPlugin())[0];
-  const dragAndDropPlugin = useState(() => createDragAndDropPlugin())[0];
   const [open, setOpen] = useState(false);
   const [editEvent, setEditEvent] = useState(null);
   const [allEvents, setAllEvents] = useState([]);
   const notifiedEventsRef = useRef(new Set());
 
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const timeZone = user?.timezone || "Europe/Berlin";
-    const options = {
-      timeZone,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    };
-
-    const formatter = new Intl.DateTimeFormat("en-GB", options);
-    const parts = formatter.formatToParts(d);
-
-    const get = (type) => parts.find((p) => p.type === type)?.value;
-
-    const year = get("year");
-    const month = get("month");
-    const day = get("day");
-    const hour = get("hour");
-    const minute = get("minute");
-
-    return `${year}-${month}-${day} ${hour}:${minute}`;
-  };
+  // formatDate moved inside fetchEvents
   // Request notification permission on mount
   useEffect(() => {
     if ("Notification" in window && Notification.permission !== "granted") {
@@ -102,7 +78,7 @@ const CalendarPage = () => {
             Notification.permission === "granted"
           ) {
             new Notification(`Upcoming Event: ${event.title}`, {
-              body: `Starts at ${eventStart.toLocaleTimeString()}`,
+              body: `Starts at ${eventStart.toLocaleTimeString()}`
             });
             notifiedEventsRef.current.add(event.id);
           }
@@ -110,9 +86,35 @@ const CalendarPage = () => {
       });
     }, 60 * 1000); // every minute
     return () => clearInterval(pollInterval);
-  }, [eventsService]);
+  }, []);
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
+    const formatDate = (date) => {
+      const d = new Date(date);
+      const timeZone = user?.timezone || "Europe/Berlin";
+      const options = {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      };
+
+      const formatter = new Intl.DateTimeFormat("en-GB", options);
+      const parts = formatter.formatToParts(d);
+
+      const get = (type) => parts.find((p) => p.type === type)?.value;
+
+      const year = get("year");
+      const month = get("month");
+      const day = get("day");
+      const hour = get("hour");
+      const minute = get("minute");
+
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    };
     try {
       const response = await eventService.getAllEvents();
       const backendEvents = response.data;
@@ -129,13 +131,13 @@ const CalendarPage = () => {
               lightColors: {
                 main: ev.color,
                 container: ev.color + "95", // add some transparency
-                onContainer: "#000000",
+                onContainer: "#000000"
               },
               darkColors: {
                 main: ev.color,
                 container: ev.color + "40",
-                onContainer: "#ffffff",
-              },
+                onContainer: "#ffffff"
+              }
             };
           }
         }
@@ -165,9 +167,9 @@ const CalendarPage = () => {
                     ? "FREQ=WEEKLY;"
                     : ev.recurring === "monthly"
                       ? "FREQ=MONTHLY;"
-                      : "",
+                      : ""
             }
-          : {}),
+          : {})
       }));
       eventsService.set(formattedEvents);
       setAllEvents(formattedEvents);
@@ -175,14 +177,14 @@ const CalendarPage = () => {
     } catch (error) {
       console.error("Failed to fetch events:", error);
     }
-  };
+  }, [user]);
 
   const handleAddEvent = async (data) => {
     try {
       const newEvent = {
         ...data,
         start: toLocalISOString(data.start),
-        end: toLocalISOString(data.end),
+        end: toLocalISOString(data.end)
       };
       const response = await eventService.createEvent(newEvent);
       const createdEvent = response.data;
@@ -202,7 +204,7 @@ const CalendarPage = () => {
       await eventService.updateEvent(editEvent.id, {
         ...data,
         start: toLocalISOString(data.start),
-        end: toLocalISOString(data.end),
+        end: toLocalISOString(data.end)
       });
       await fetchEvents();
       setOpen(false);
@@ -235,7 +237,7 @@ const CalendarPage = () => {
     setEditEvent({
       ...selectedEvent,
       start: selectedEvent.start ? new Date(selectedEvent.start) : null,
-      end: selectedEvent.end ? new Date(selectedEvent.end) : null,
+      end: selectedEvent.end ? new Date(selectedEvent.end) : null
     });
     setOpen(true);
   };
@@ -246,7 +248,7 @@ const CalendarPage = () => {
       createViewDay(),
       createViewWeek(),
       createViewMonthGrid(),
-      createViewMonthAgenda(),
+      createViewMonthAgenda()
     ],
     defaultView: "week",
     events: allEvents,
@@ -254,39 +256,39 @@ const CalendarPage = () => {
       eventsService,
       dragAndDropPlugin,
       createEventRecurrencePlugin(),
-      calenderControls,
+      calenderControls
     ],
     eventDisplay: "block",
     callbacks: {
-      onEventUpdate: async (event, e) => {
+      onEventUpdate: async (event, _e) => {
         try {
           const data = {
             ...event,
             start: toLocalISOString(new Date(event.start)),
             end: toLocalISOString(new Date(event.end)),
-            userIds: event.userIds.map((user) => user.id),
+            userIds: event.userIds.map((user) => user.id)
           };
           await eventService.updateEvent(event.id, data);
         } catch (error) {
           console.log("erororor", error);
         }
       },
-      onEventClick: (event, e) => {
+      onEventClick: (event, _e) => {
         setEditEvent({
           ...event,
           start: event.start ? new Date(event.start) : null,
-          end: event.end ? new Date(event.end) : null,
+          end: event.end ? new Date(event.end) : null
         });
         setOpen(true);
-      },
+      }
       // Add more callbacks as needed
-    },
+    }
   });
 
   // Fetch events from backend on mount
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

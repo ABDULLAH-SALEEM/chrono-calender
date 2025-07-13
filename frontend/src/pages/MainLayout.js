@@ -17,12 +17,12 @@ const pageComponents = [
   { component: <CalendarPage key="dashboard" />, title: "Calender" }, // Dashboard
   {
     component: <InvitationsPage key="invitations" />,
-    title: "Invitations",
+    title: "Invitations"
   },
   {
     component: <SettingsPage key="settings" />,
-    title: "Settings",
-  },
+    title: "Settings"
+  }
 ];
 
 export default function MainLayout() {
@@ -39,7 +39,7 @@ export default function MainLayout() {
         display: "flex",
         minHeight: "100vh",
         bgcolor: "background.default",
-        position: "relative",
+        position: "relative"
       }}
     >
       <Sidebar
@@ -59,13 +59,13 @@ export default function MainLayout() {
             zIndex: 1301,
             bgcolor: "background.paper",
             "&:hover": {
-              bgcolor: "background.paper",
+              bgcolor: "background.paper"
             },
             border: `1px solid ${theme.palette.divider}`,
 
             transition:
               "left 0.2s cubic-bezier(.4,0,.2,1), transform 0.2s cubic-bezier(.4,0,.2,1)",
-            transform: collapsed ? "rotate(180deg)" : "none",
+            transform: collapsed ? "rotate(180deg)" : "none"
           }}
         >
           <ChevronLeftIcon />
@@ -78,7 +78,7 @@ export default function MainLayout() {
             xs: "18px",
             sm: collapsed
               ? `${SIDEBAR_COLLAPSED_WIDTH + 25}px`
-              : `${SIDEBAR_WIDTH + 25}px`,
+              : `${SIDEBAR_WIDTH + 25}px`
           },
 
           mr: isMobile ? "18px" : "25px",
@@ -86,7 +86,7 @@ export default function MainLayout() {
 
           width: "100%",
           minHeight: "100vh",
-          transition: "margin-left 0.2s cubic-bezier(.4,0,.2,1)",
+          transition: "margin-left 0.2s cubic-bezier(.4,0,.2,1)"
         }}
       >
         {/* {!isMobile && ( */}

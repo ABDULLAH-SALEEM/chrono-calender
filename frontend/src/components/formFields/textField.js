@@ -54,8 +54,8 @@ const CustomTextField = ({
                       </InputAdornment>
                     ) : (
                       endIcon
-                    ),
-                  },
+                    )
+                  }
                 }}
                 fullWidth
                 type={isShowPassword ? "text" : type}
@@ -93,8 +93,8 @@ const CustomTextField = ({
                 </InputAdornment>
               ) : (
                 endIcon
-              ),
-            },
+              )
+            }
           }}
           {...props}
         />

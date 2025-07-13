@@ -11,11 +11,10 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-  Divider,
+  Divider
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MailIcon from "@mui/icons-material/Mail";
@@ -24,18 +23,13 @@ import { useAuth } from "../hooks/useAuth";
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon /> },
   { text: "Invitations", icon: <MailIcon /> },
-  { text: "Settings", icon: <SettingsIcon /> },
+  { text: "Settings", icon: <SettingsIcon /> }
 ];
 
 const SIDEBAR_WIDTH = 200;
 const SIDEBAR_COLLAPSED_WIDTH = 68;
 
-export default function Sidebar({
-  selected = 0,
-  onSelect,
-  collapsed,
-  setCollapsed,
-}) {
+export default function Sidebar({ selected = 0, onSelect, collapsed }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = React.useState(false);
@@ -56,7 +50,7 @@ export default function Sidebar({
         px: collapsed ? 0 : 2,
         py: 2,
         minHeight: 56,
-        width: "100%",
+        width: "100%"
       }}
     >
       {!collapsed && (
@@ -69,7 +63,7 @@ export default function Sidebar({
               height: 32,
               objectFit: "contain",
               marginRight: collapsed ? 0 : 8,
-              display: "block",
+              display: "block"
             }}
           />
           <Typography
@@ -97,7 +91,7 @@ export default function Sidebar({
         pt: 0,
         pb: 0,
         position: "relative",
-        transition: "width 0.2s cubic-bezier(.4,0,.2,1)",
+        transition: "width 0.2s cubic-bezier(.4,0,.2,1)"
       }}
     >
       {/* App logo/name at the top */}
@@ -108,7 +102,7 @@ export default function Sidebar({
           mt: 0,
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-start",
+          justifyContent: "flex-start"
         }}
       >
         <List>
@@ -131,11 +125,9 @@ export default function Sidebar({
                     justifyContent: collapsed ? "center" : "flex-start",
                     px: collapsed ? 0 : 2,
                     "&:hover": {
-                      bgcolor: isSelected
-                        ? blackBg
-                        : theme.palette.action.hover,
+                      bgcolor: isSelected ? blackBg : theme.palette.action.hover
                     },
-                    transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+                    transition: "all 0.2s cubic-bezier(.4,0,.2,1)"
                   }}
                   onClick={() => {
                     onSelect && onSelect(idx);
@@ -147,7 +139,7 @@ export default function Sidebar({
                       color: isSelected ? white : black,
                       minWidth: 0,
                       mr: collapsed ? 0 : 2,
-                      justifyContent: "center",
+                      justifyContent: "center"
                     }}
                   >
                     {item.icon}
@@ -181,7 +173,7 @@ export default function Sidebar({
             minHeight: 48,
             width: "100%",
 
-            transition: "all 0.2s cubic-bezier(.4,0,.2,1)",
+            transition: "all 0.2s cubic-bezier(.4,0,.2,1)"
           }}
           onClick={logout}
         >
@@ -190,7 +182,7 @@ export default function Sidebar({
               color: theme.palette.error.main,
               minWidth: 0,
               mr: collapsed ? 0 : 2,
-              justifyContent: "center",
+              justifyContent: "center"
             }}
           >
             <LogoutIcon />
@@ -228,7 +220,7 @@ export default function Sidebar({
             open={open}
             onClose={() => setOpen(false)}
             PaperProps={{
-              sx: { width: SIDEBAR_WIDTH, bgcolor: "background.default" },
+              sx: { width: SIDEBAR_WIDTH, bgcolor: "background.default" }
             }}
           >
             {drawerContent}
@@ -250,7 +242,7 @@ export default function Sidebar({
             justifyContent: "space-between",
             pt: 0,
             pb: 0,
-            transition: "width 0.2s cubic-bezier(.4,0,.2,1)",
+            transition: "width 0.2s cubic-bezier(.4,0,.2,1)"
           }}
         >
           {drawerContent}

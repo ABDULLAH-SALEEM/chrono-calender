@@ -9,7 +9,7 @@ import {
   Typography,
   FormHelperText,
   Dialog,
-  Grid,
+  Grid
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -25,14 +25,14 @@ const priorities = [
   { value: "high", label: "High" },
   { value: "medium", label: "Medium" },
   { value: "low", label: "Low" },
-  { value: "critical", label: "Critical" },
+  { value: "critical", label: "Critical" }
 ];
 
 const recurringOptions = [
   { value: "", label: "None" },
   { value: "daily", label: "Daily" },
   { value: "weekly", label: "Weekly" },
-  { value: "monthly", label: "Monthly" },
+  { value: "monthly", label: "Monthly" }
 ];
 
 const presetColors = [
@@ -45,7 +45,7 @@ const presetColors = [
   { value: "#a8edea", label: "Cyan" },
   { value: "#ff9a9e", label: "Coral" },
   { value: "#667eea", label: "Purple" },
-  { value: "#f093fb", label: "Magenta" },
+  { value: "#f093fb", label: "Magenta" }
 ];
 
 const schema = yup.object().shape({
@@ -70,10 +70,10 @@ const schema = yup.object().shape({
     .of(
       yup.object().shape({
         value: yup.string().required(),
-        label: yup.string().required(),
+        label: yup.string().required()
       })
     )
-    .optional(),
+    .optional()
 });
 
 export default function EventForm({
@@ -82,27 +82,23 @@ export default function EventForm({
   onCancel,
   submitLabel = "Create",
   onDelete,
-  eventId, // for copy link functionality
+  eventId // for copy link functionality
 }) {
   const [allUsers, setAllUsers] = useState([]);
-  const [usersLoading, setUsersLoading] = useState(false);
   const { user } = useAuth();
 
   console.log("initialValues_++", initialValues);
   useEffect(() => {
     const fetchUsers = async () => {
-      setUsersLoading(true);
       try {
         const response = await userService.getAllUsers();
         const userOptions = response.data.map((user) => ({
           value: user.id,
-          label: user.name || user.email,
+          label: user.name || user.email
         }));
         setAllUsers(userOptions);
       } catch (error) {
         console.error("Error fetching users:", error);
-      } finally {
-        setUsersLoading(false);
       }
     };
     fetchUsers();
@@ -120,7 +116,7 @@ export default function EventForm({
     handleSubmit,
     control,
     formState: { errors },
-    setValue,
+    setValue
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -133,9 +129,9 @@ export default function EventForm({
       tags: initialValues.tags || [],
       location: initialValues.location || "",
       color: initialValues.color || "",
-      userIds: mapIdsToUserObjects(initialValues.userIds || []),
+      userIds: mapIdsToUserObjects(initialValues.userIds || [])
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema)
   });
 
   // When allUsers changes, update userIds in form if needed
@@ -175,7 +171,7 @@ export default function EventForm({
             controller={{
               control,
               name: "title",
-              errors: errors.title?.message,
+              errors: errors.title?.message
             }}
             placeholder="Event title"
             error={!!errors.title}
@@ -186,7 +182,7 @@ export default function EventForm({
             controller={{
               control,
               name: "description",
-              errors: errors.description?.message,
+              errors: errors.description?.message
             }}
             multiline
             minRows={3}
@@ -200,7 +196,7 @@ export default function EventForm({
             controller={{
               control,
               name: "location",
-              errors: errors.location?.message,
+              errors: errors.location?.message
             }}
             placeholder="Event location"
             error={!!errors.location}
@@ -227,7 +223,7 @@ export default function EventForm({
                       height: "40px",
                       border: "none",
                       borderRadius: "4px",
-                      cursor: "pointer",
+                      cursor: "pointer"
                     }}
                   />
                   <TextField
@@ -237,7 +233,7 @@ export default function EventForm({
                     sx={{ flex: 1 }}
                     inputProps={{
                       pattern: "^#[0-9A-Fa-f]{6}$",
-                      title: "Enter a valid hex color code (e.g., #667eea)",
+                      title: "Enter a valid hex color code (e.g., #667eea)"
                     }}
                   />
                 </Box>
@@ -260,8 +256,8 @@ export default function EventForm({
                             : "1px solid #ddd",
                         "&:hover": {
                           transform: "scale(1.1)",
-                          transition: "transform 0.2s ease",
-                        },
+                          transition: "transform 0.2s ease"
+                        }
                       }}
                       title={color.label}
                     />
@@ -285,8 +281,8 @@ export default function EventForm({
                   slotProps={{
                     textField: {
                       error: !!errors.start,
-                      fullWidth: true,
-                    },
+                      fullWidth: true
+                    }
                   }}
                 />
                 {errors.start && (
@@ -306,8 +302,8 @@ export default function EventForm({
                   slotProps={{
                     textField: {
                       error: !!errors.end,
-                      fullWidth: true,
-                    },
+                      fullWidth: true
+                    }
                   }}
                 />
                 {errors.end && (

@@ -4,8 +4,8 @@ const API_URL = "http://localhost:8080/api";
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 });
 
 // Add token to requests if it exists
@@ -22,7 +22,7 @@ export const authService = {
   login: (credentials) => api.post("/auth/login", credentials),
   getCurrentUser: () => api.get("/auth/me"),
   changePassword: (data) => api.put("/auth/password", data),
-  updateTimezone: (data) => api.put("/auth/timezone", data),
+  updateTimezone: (data) => api.put("/auth/timezone", data)
 };
 
 export const eventService = {
@@ -45,7 +45,7 @@ export const eventService = {
   joinEvent: (eventId) => api.post(`/events/${eventId}/join`),
 
   // Leave an event
-  leaveEvent: (eventId) => api.post(`/events/${eventId}/leave`),
+  leaveEvent: (eventId) => api.post(`/events/${eventId}/leave`)
 };
 
 export const invitationService = {
@@ -58,12 +58,12 @@ export const invitationService = {
 
   // Decline an invitation
   declineInvitation: (invitationId) =>
-    api.post(`/invitations/${invitationId}/decline`),
+    api.post(`/invitations/${invitationId}/decline`)
 };
 
 export const userService = {
   // Get all users (excluding current user)
-  getAllUsers: () => api.get("/users"),
+  getAllUsers: () => api.get("/users")
 };
 
 export default api;

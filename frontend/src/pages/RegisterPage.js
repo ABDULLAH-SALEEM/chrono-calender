@@ -16,14 +16,14 @@ const RegisterPage = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
     mode: "onTouched",
     defaultValues: {
       name: "",
       email: "",
-      password: "",
-    },
+      password: ""
+    }
   });
 
   const onSubmit = async (data) => {
@@ -47,7 +47,7 @@ const RegisterPage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        bgcolor: "background.default",
+        bgcolor: "background.default"
       }}
     >
       <Paper
@@ -58,7 +58,7 @@ const RegisterPage = () => {
           maxWidth: "100vw",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Typography variant="h5" fontWeight={700} mb={2} align="center">
@@ -74,7 +74,7 @@ const RegisterPage = () => {
             controller={{
               control,
               name: "name",
-              errors: errors.name?.message,
+              errors: errors.name?.message
             }}
             label="Name"
             type="text"
@@ -87,7 +87,7 @@ const RegisterPage = () => {
             controller={{
               control,
               name: "email",
-              errors: errors.email?.message,
+              errors: errors.email?.message
             }}
             label="Email"
             type="email"
@@ -100,7 +100,7 @@ const RegisterPage = () => {
             controller={{
               control,
               name: "password",
-              errors: errors.password?.message,
+              errors: errors.password?.message
             }}
             label="Password"
             type="password"

@@ -16,13 +16,13 @@ const LoginPage = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
     mode: "onTouched",
     defaultValues: {
       email: "",
-      password: "",
-    },
+      password: ""
+    }
   });
 
   const onSubmit = async (data) => {
@@ -46,7 +46,7 @@ const LoginPage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        bgcolor: "background.default",
+        bgcolor: "background.default"
       }}
     >
       <Paper
@@ -57,7 +57,7 @@ const LoginPage = () => {
           maxWidth: "100vw",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Typography variant="h5" fontWeight={700} mb={2} align="center">
@@ -73,7 +73,7 @@ const LoginPage = () => {
             controller={{
               control,
               name: "email",
-              errors: errors.email?.message,
+              errors: errors.email?.message
             }}
             label="Email"
             type="email"
@@ -86,7 +86,7 @@ const LoginPage = () => {
             controller={{
               control,
               name: "password",
-              errors: errors.password?.message,
+              errors: errors.password?.message
             }}
             label="Password"
             type="password"

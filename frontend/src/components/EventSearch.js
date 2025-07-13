@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   TextField,
@@ -6,7 +6,7 @@ import {
   Chip,
   Typography,
   useTheme,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EventIcon from "@mui/icons-material/Event";
@@ -14,7 +14,7 @@ import EventIcon from "@mui/icons-material/Event";
 const EventSearch = ({
   events = [],
   onEventSelect,
-  placeholder = "Search events...",
+  placeholder = "Search events..."
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -66,7 +66,7 @@ const EventSearch = ({
       " " +
       date.toLocaleTimeString([], {
         hour: "2-digit",
-        minute: "2-digit",
+        minute: "2-digit"
       })
     );
   };
@@ -85,7 +85,7 @@ const EventSearch = ({
     <Box
       sx={{
         width: isMobile ? "100%" : "300px",
-        position: "relative",
+        position: "relative"
       }}
     >
       <Autocomplete
@@ -113,15 +113,15 @@ const EventSearch = ({
               ...params.InputProps,
               startAdornment: (
                 <SearchIcon sx={{ color: "text.secondary", mr: 1 }} />
-              ),
+              )
             }}
             sx={{
               "& .MuiOutlinedInput-root": {
                 backgroundColor: "background.paper",
                 "&:hover": {
-                  backgroundColor: "action.hover",
-                },
-              },
+                  backgroundColor: "action.hover"
+                }
+              }
             }}
           />
         )}
@@ -142,7 +142,7 @@ const EventSearch = ({
                     display: "block",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
+                    whiteSpace: "nowrap"
                   }}
                 >
                   {getEventPreview(option)}
@@ -153,7 +153,7 @@ const EventSearch = ({
                       mt: 0.5,
                       display: "flex",
                       flexWrap: "wrap",
-                      gap: 0.5,
+                      gap: 0.5
                     }}
                   >
                     {option.tags.slice(0, 3).map((tag, index) => (
@@ -165,7 +165,7 @@ const EventSearch = ({
                         sx={{
                           height: "20px",
                           fontSize: "0.7rem",
-                          "& .MuiChip-label": { px: 1 },
+                          "& .MuiChip-label": { px: 1 }
                         }}
                       />
                     ))}
@@ -177,7 +177,7 @@ const EventSearch = ({
                         sx={{
                           height: "20px",
                           fontSize: "0.7rem",
-                          "& .MuiChip-label": { px: 1 },
+                          "& .MuiChip-label": { px: 1 }
                         }}
                       />
                     )}
@@ -192,8 +192,8 @@ const EventSearch = ({
         }
         sx={{
           "& .MuiAutocomplete-paper": {
-            maxHeight: "300px",
-          },
+            maxHeight: "300px"
+          }
         }}
       />
     </Box>

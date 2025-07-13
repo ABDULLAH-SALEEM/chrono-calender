@@ -4,7 +4,7 @@ import {
   TextField,
   Chip,
   Box,
-  CircularProgress,
+  CircularProgress
 } from "@mui/material";
 import { userService } from "../services/apis";
 
@@ -12,7 +12,7 @@ export default function UserSelector({
   value = [],
   onChange,
   error,
-  label = "Invite Users",
+  label = "Invite Users"
 }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ export default function UserSelector({
         const response = await userService.getAllUsers();
         const userOptions = response.data.map((user) => ({
           value: user.id,
-          label: user.name || user.email,
+          label: user.name || user.email
         }));
         setUsers(userOptions);
       } catch (error) {
@@ -69,7 +69,7 @@ export default function UserSelector({
                 ) : null}
                 {params.InputProps.endAdornment}
               </>
-            ),
+            )
           }}
         />
       )}

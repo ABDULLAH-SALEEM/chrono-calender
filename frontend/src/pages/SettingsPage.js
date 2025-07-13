@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Box,
@@ -10,7 +10,7 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
-  Grid,
+  Grid
 } from "@mui/material";
 import CustomTextField from "../components/formFields/textField";
 import { authService } from "../services/apis";
@@ -23,14 +23,14 @@ const SettingsPage = () => {
     handleSubmit: handlePasswordSubmit,
     control: passwordControl,
     reset: resetPasswordForm,
-    formState: { errors: passwordErrors },
+    formState: { errors: passwordErrors }
   } = useForm({
     mode: "onTouched",
     defaultValues: {
       currentPassword: "",
       newPassword: "",
-      confirmNewPassword: "",
-    },
+      confirmNewPassword: ""
+    }
   });
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordMsg, setPasswordMsg] = useState("");
@@ -46,7 +46,7 @@ const SettingsPage = () => {
     try {
       await authService.changePassword({
         currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
+        newPassword: data.newPassword
       });
       setPasswordMsg("Password updated successfully.");
       resetPasswordForm();
@@ -63,12 +63,12 @@ const SettingsPage = () => {
   const {
     handleSubmit: handleTimezoneSubmit,
     control: timezoneControl,
-    formState: { errors: timezoneErrors },
+    formState: { errors: timezoneErrors }
   } = useForm({
     mode: "onTouched",
     defaultValues: {
-      timezone: user?.timezone || "Europe/Berlin",
-    },
+      timezone: user?.timezone || "Europe/Berlin"
+    }
   });
   const [timezoneMsg, setTimezoneMsg] = useState("");
   const [timezoneLoading, setTimezoneLoading] = useState(false);
@@ -96,7 +96,7 @@ const SettingsPage = () => {
           width: "100%",
           mx: "auto",
           mb: 4,
-          p: { xs: 2, sm: 4 },
+          p: { xs: 2, sm: 4 }
         }}
       >
         <Typography variant="h6" fontWeight={700} mb={2}>
@@ -114,7 +114,7 @@ const SettingsPage = () => {
                 controller={{
                   control: passwordControl,
                   name: "currentPassword",
-                  errors: passwordErrors.currentPassword?.message,
+                  errors: passwordErrors.currentPassword?.message
                 }}
                 label="Current Password"
                 type="password"
@@ -129,7 +129,7 @@ const SettingsPage = () => {
                 controller={{
                   control: passwordControl,
                   name: "newPassword",
-                  errors: passwordErrors.newPassword?.message,
+                  errors: passwordErrors.newPassword?.message
                 }}
                 label="New Password"
                 type="password"
@@ -144,7 +144,7 @@ const SettingsPage = () => {
                 controller={{
                   control: passwordControl,
                   name: "confirmNewPassword",
-                  errors: passwordErrors.confirmNewPassword?.message,
+                  errors: passwordErrors.confirmNewPassword?.message
                 }}
                 label="Confirm New Password"
                 type="password"
@@ -188,7 +188,7 @@ const SettingsPage = () => {
           width: "100%",
 
           mx: "auto",
-          p: { xs: 2, sm: 4 },
+          p: { xs: 2, sm: 4 }
         }}
       >
         <Typography variant="h6" fontWeight={700} mb={2}>
