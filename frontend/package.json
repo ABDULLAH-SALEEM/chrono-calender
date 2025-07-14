@@ -35,7 +35,8 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:playwright": "playwright test"
   },
   "eslintConfig": {
     "extends": [
@@ -81,6 +82,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "jsdom": "^26.1.0",
+    "playwright": "^1.54.1",
     "prettier": "^3.6.2"
   }
 }

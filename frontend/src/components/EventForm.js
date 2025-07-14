@@ -173,7 +173,7 @@ export default function EventForm({
         </Typography>
         <Stack spacing={2}>
           <CustomTextField
-            label={"Event title "}
+            label={"Event title"}
             controller={{
               control,
               name: "title",
@@ -280,7 +280,7 @@ export default function EventForm({
             name="start"
             control={control}
             render={({ field }) => (
-              <>
+              <div data-testid="start-datetime">
                 <DateTimePicker
                   {...field}
                   label="Start Date/Time"
@@ -294,14 +294,14 @@ export default function EventForm({
                 {errors.start && (
                   <FormHelperText error>{errors.start.message}</FormHelperText>
                 )}
-              </>
+              </div>
             )}
           />
           <Controller
             name="end"
             control={control}
             render={({ field }) => (
-              <>
+              <div data-testid="end-datetime">
                 <DateTimePicker
                   {...field}
                   label="End Date/Time"
@@ -315,7 +315,7 @@ export default function EventForm({
                 {errors.end && (
                   <FormHelperText error>{errors.end.message}</FormHelperText>
                 )}
-              </>
+              </div>
             )}
           />
           <Controller
