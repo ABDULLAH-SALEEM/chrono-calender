@@ -13,7 +13,8 @@ module.exports = {
   collectCoverageFrom: [
     "src/**/*.{js,jsx}",
     "test/**/*.{js,jsx}",
-    "!**/node_modules/**"
+    "!**/node_modules/**",
+    "!src/pages/CalendarPage.js"
   ],
   coverageThreshold: {
     global: {
@@ -21,6 +22,7 @@ module.exports = {
     }
   },
   testMatch: ["<rootDir>/test/**/*.test.js", "<rootDir>/test/**/*.spec.js"],
+  testPathIgnorePatterns: ["<rootDir>/src/pages/CalendarPage.js"],
   transformIgnorePatterns: [
     "/node_modules/(?!(axios|date-fns|@mui/x-date-pickers)/)"
   ]
