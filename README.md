@@ -191,10 +191,10 @@ Celander-app/
 
 ## API Overview
 
-- **Auth:** `/api/auth/register`, `/api/auth/login`, `/api/auth/me`, `/api/auth/password`, `/api/auth/timezone`
-- **Events:** `/api/events` (CRUD), `/api/events/:id/join`, `/api/events/:id/leave`, `/api/events/date-range`, `/api/events/priority/:priority`
-- **Users:** `/api/users`
-- **Invitations:** `/api/invitations`
+- **Auth:** `/auth/register`, `/auth/login`, `/auth/me`, `/auth/password`, `/auth/timezone`
+- **Events:** `/events` (CRUD), `/events/:eventId`, `/events/:eventId/join`
+- **Invitations:** `/invitations`, `/invitations/:invitationId/accept`, `/invitations/:invitationId/decline`
+- **Users:** `/users`
 
 All endpoints (except `/auth/*`) require JWT in the `Authorization` header.
 
