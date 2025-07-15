@@ -1,3 +1,4 @@
+import { act } from "react";
 // Mock the web-vitals functions
 const mockGetCLS = jest.fn();
 const mockGetFID = jest.fn();

@@ -38,7 +38,15 @@ describe("EventForm", () => {
       data: mockUsers
     });
     jest.spyOn(window, "alert").mockImplementation(() => {});
-    jest.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
+    if (!navigator.clipboard) {
+      Object.assign(navigator, {
+        clipboard: {
+          writeText: jest.fn().mockResolvedValue()
+        }
+      });
+    } else {
+      jest.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
+    }
   });
 
   afterEach(() => {
@@ -67,7 +75,7 @@ describe("EventForm", () => {
       document.querySelectorAll(".MuiFormHelperText-root")
     ).map((el) => el.textContent);
     // eslint-disable-next-line no-console
-    console.log("All FormHelperText:", all);
+    // console.log("All FormHelperText:", all);
     return all;
   }
 

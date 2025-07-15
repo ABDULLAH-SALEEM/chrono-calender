@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { AuthProvider, AuthContext } from "../../src/context/AuthContext";
 import * as apis from "../../src/services/apis";
+import { act } from "react";
 
 jest.mock("../../src/services/apis", () => ({
   authService: {

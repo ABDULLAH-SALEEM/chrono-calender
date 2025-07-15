@@ -87,7 +87,6 @@ export default function EventForm({
   const [allUsers, setAllUsers] = useState([]);
   const { user } = useAuth();
 
-  console.log("initialValues_++", initialValues);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -98,7 +97,10 @@ export default function EventForm({
         }));
         setAllUsers(userOptions);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        // Only log error in development
+        if (process.env.NODE_ENV === "development") {
+          console.error("Error fetching users:", error);
+        }
       }
     };
     fetchUsers();
@@ -152,7 +154,10 @@ export default function EventForm({
           alert("Event link copied to clipboard!");
         })
         .catch((error) => {
-          console.error("Failed to copy link:", error);
+          // Only log error in development
+          if (process.env.NODE_ENV === "development") {
+            console.error("Failed to copy link:", error);
+          }
           alert("Failed to copy link to clipboard");
         });
     }

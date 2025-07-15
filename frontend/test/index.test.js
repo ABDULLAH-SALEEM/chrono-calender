@@ -1,3 +1,4 @@
+import { act } from "react";
 // Mock react-dom/client
 const mockRender = jest.fn();
 const mockCreateRoot = jest.fn(() => ({

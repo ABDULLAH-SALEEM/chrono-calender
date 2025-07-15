@@ -33,7 +33,9 @@ export default function UserSelector({
           })) || [];
         setUsers(userOptions);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        if (process.env.NODE_ENV === "development") {
+          console.error("Error fetching users:", error);
+        }
         setUsers([]);
       } finally {
         setLoading(false);

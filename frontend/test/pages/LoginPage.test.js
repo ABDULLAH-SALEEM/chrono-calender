@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthContext } from "../../src/context/AuthContext";
 import LoginPage from "../../src/pages/LoginPage";
+import { act } from "react";
 
 describe("LoginPage", () => {
   const mockLogin = jest.fn();

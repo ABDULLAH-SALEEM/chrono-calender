@@ -4,6 +4,7 @@ import UserSelector from "../../src/components/UserSelector";
 import userEvent from "@testing-library/user-event";
 import * as apis from "../../src/services/apis";
 import { userService } from "../../src/services/apis";
+import { act } from "react";
 
 jest.mock("../../src/services/apis");
 
@@ -19,10 +20,14 @@ describe("UserSelector extended", () => {
   });
 
   it("fetches and displays user options", async () => {
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     // Open dropdown
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     // Now options should be visible
     expect(await screen.findByText(/user one/i)).toBeInTheDocument();
     expect(screen.getByText(/user two/i)).toBeInTheDocument();
@@ -30,22 +35,34 @@ describe("UserSelector extended", () => {
 
   it("shows loading spinner while fetching", async () => {
     apis.userService.getAllUsers.mockReturnValue(new Promise(() => {}));
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 
   it("calls onChange when users are selected", async () => {
     const handleChange = jest.fn();
-    render(<UserSelector value={[]} onChange={handleChange} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={handleChange} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     const option = await screen.findByText(/user one/i);
-    fireEvent.click(option);
+    await act(async () => {
+      fireEvent.click(option);
+    });
     expect(handleChange).toHaveBeenCalled();
   });
 
-  it("renders custom label", () => {
-    render(<UserSelector value={[]} onChange={() => {}} label="CustomLabel" />);
+  it("renders custom label", async () => {
+    await act(async () => {
+      render(
+        <UserSelector value={[]} onChange={() => {}} label="CustomLabel" />
+      );
+    });
     expect(screen.getByLabelText(/customlabel/i)).toBeInTheDocument();
   });
 
@@ -53,7 +70,9 @@ describe("UserSelector extended", () => {
 
   it("handles fetch error gracefully", async () => {
     apis.userService.getAllUsers.mockRejectedValue(new Error("Network error"));
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     // Should not crash and should handle error gracefully
     await waitFor(() => {
       expect(screen.getByTestId("user-selector-root")).toBeInTheDocument();
@@ -68,9 +87,13 @@ describe("UserSelector extended", () => {
     apis.userService.getAllUsers.mockResolvedValue({
       data: usersWithoutName
     });
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     // Should use email as fallback when name is not available
     await waitFor(() => {
       expect(screen.getByText("one@test.com")).toBeInTheDocument();
@@ -78,7 +101,9 @@ describe("UserSelector extended", () => {
   });
 
   it("handles input value changes", async () => {
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
     await userEvent.type(input, "test");
     expect(input.value).toBe("test");
@@ -86,11 +111,17 @@ describe("UserSelector extended", () => {
 
   it("handles user selection with value mapping", async () => {
     const handleChange = jest.fn();
-    render(<UserSelector value={[]} onChange={handleChange} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={handleChange} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     const option = await screen.findByText(/user one/i);
-    fireEvent.click(option);
+    await act(async () => {
+      fireEvent.click(option);
+    });
     expect(handleChange).toHaveBeenCalledWith(
       expect.arrayContaining([
         expect.objectContaining({
@@ -106,7 +137,9 @@ describe("UserSelector extended", () => {
       { value: 1, label: "User One" },
       { value: 2, label: "User Two" }
     ];
-    render(<UserSelector value={selectedUsers} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={selectedUsers} onChange={() => {}} />);
+    });
     expect(screen.getByText("User One")).toBeInTheDocument();
     expect(screen.getByText("User Two")).toBeInTheDocument();
   });
@@ -117,18 +150,26 @@ describe("UserSelector extended", () => {
       { value: 1, label: "User One" },
       { value: 2, label: "User Two" }
     ];
-    render(<UserSelector value={selectedUsers} onChange={handleChange} />);
+    await act(async () => {
+      render(<UserSelector value={selectedUsers} onChange={handleChange} />);
+    });
     const tags = screen.getAllByRole("button");
     if (tags.length > 0) {
-      fireEvent.click(tags[0]);
+      await act(async () => {
+        fireEvent.click(tags[0]);
+      });
       expect(handleChange).toHaveBeenCalled();
     }
   });
 
   it("handles option comparison correctly", async () => {
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     // Should handle option comparison correctly
     await waitFor(() => {
       expect(screen.getByText(/user one/i)).toBeInTheDocument();
@@ -139,9 +180,13 @@ describe("UserSelector extended", () => {
     apis.userService.getAllUsers.mockResolvedValue({
       data: []
     });
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     // Should handle empty users array gracefully
     await waitFor(() => {
       expect(screen.getByTestId("user-selector-root")).toBeInTheDocument();
@@ -152,7 +197,9 @@ describe("UserSelector extended", () => {
     apis.userService.getAllUsers.mockResolvedValue({
       data: null
     });
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     // Should handle null response gracefully
     await waitFor(() => {
       expect(screen.getByTestId("user-selector-root")).toBeInTheDocument();
@@ -163,7 +210,9 @@ describe("UserSelector extended", () => {
     apis.userService.getAllUsers.mockResolvedValue({
       data: undefined
     });
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     // Should handle undefined response gracefully
     await waitFor(() => {
       expect(screen.getByTestId("user-selector-root")).toBeInTheDocument();
@@ -178,9 +227,13 @@ describe("UserSelector extended", () => {
     apis.userService.getAllUsers.mockResolvedValue({
       data: usersWithNullProps
     });
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     // Should handle null properties gracefully
     await waitFor(() => {
       expect(screen.getByText("one@test.com")).toBeInTheDocument();
@@ -196,9 +249,13 @@ describe("UserSelector extended", () => {
     apis.userService.getAllUsers.mockResolvedValue({
       data: usersWithUndefinedProps
     });
-    render(<UserSelector value={[]} onChange={() => {}} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={() => {}} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
-    fireEvent.mouseDown(input);
+    await act(async () => {
+      fireEvent.mouseDown(input);
+    });
     // Should handle undefined properties gracefully
     await waitFor(() => {
       expect(screen.getByText("one@test.com")).toBeInTheDocument();
@@ -215,7 +272,9 @@ describe("UserSelector extended", () => {
     jest
       .spyOn(userService, "getAllUsers")
       .mockResolvedValue({ data: mockUsers });
-    render(<UserSelector value={[]} onChange={handleChange} />);
+    await act(async () => {
+      render(<UserSelector value={[]} onChange={handleChange} />);
+    });
     const input = screen.getByLabelText(/invite users/i);
     await userEvent.click(input);
     const option1 = await screen.findByText(/user one/i);
@@ -229,10 +288,14 @@ describe("UserSelector extended", () => {
   it("handles user deselection", async () => {
     const handleChange = jest.fn();
     const selectedUsers = [{ value: 1, label: "User One" }];
-    render(<UserSelector value={selectedUsers} onChange={handleChange} />);
+    await act(async () => {
+      render(<UserSelector value={selectedUsers} onChange={handleChange} />);
+    });
     const tags = screen.getAllByRole("button");
     if (tags.length > 0) {
-      fireEvent.click(tags[0]);
+      await act(async () => {
+        fireEvent.click(tags[0]);
+      });
       expect(handleChange).toHaveBeenCalledWith([]);
     }
   });
