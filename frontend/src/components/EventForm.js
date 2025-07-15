@@ -351,7 +351,14 @@ export default function EventForm({
             control={control}
             render={({ field }) => (
               <TagSelector
-                value={field.value}
+                value={(field.value || []).map((tag) =>
+                  typeof tag === "string"
+                    ? {
+                        label: tag.charAt(0).toUpperCase() + tag.slice(1),
+                        value: tag
+                      }
+                    : tag
+                )}
                 onChange={(selected) =>
                   field.onChange(selected.map((tag) => tag.value))
                 }
