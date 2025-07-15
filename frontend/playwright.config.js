@@ -24,6 +24,6 @@ module.exports = defineConfig({
   webServer: {
     command: "npm run start:all",
     url: "http://localhost:3000",
-    reuseExistingServer: false
+    reuseExistingServer: true
   }
 });
