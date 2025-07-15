@@ -75,14 +75,18 @@ Celander-app/
 
 > **Attach screenshots below to visually showcase the main features of Chrono.**
 >
-> - **Login Page:** > ![Login Page Screenshot](path/to/login-screenshot.png)
-> - **Registration Page:** > ![Registration Page Screenshot](path/to/register-screenshot.png)
-> - **Calendar (Month/Week/Day Views):** > ![Calendar View Screenshot](path/to/calendar-view-screenshot.png)
-> - **Event Creation/Edit Dialog:** > ![Event Creation Screenshot](path/to/event-creation-screenshot.png)
-> - **Invitations/Join Event:** > ![Invitations Screenshot](path/to/invitations-screenshot.png)
-> - **Event Search:** > ![Event Search Screenshot](path/to/event-search-screenshot.png)
-> - **Drag-and-Drop Events:** > ![Drag-and-Drop Screenshot](path/to/drag-drop-screenshot.png)
-> - **Settings/Timezone Change:** > ![Settings Screenshot](path/to/settings-screenshot.png)
+> - **Login Page:** > ![Login Page Screenshot](./screenshots/login.png)
+> - **Registration Page:** > ![Registration Page Screenshot](./screenshots/register.png)
+> - **Calendar (Month View):** > ![Month View Screenshot](./screenshots/month view.png)
+> - **Calendar (Week View):** > ![Week View Screenshot](./screenshots/week view calender.png)
+> - **Calendar (Day View):** > ![Day View Screenshot](./screenshots/day view.png)
+> - **Event Creation/Edit Dialog:** > ![Event Creation Screenshot](./screenshots/create event.png)
+> - **Delete Event:** > ![Delete Event Screenshot](./screenshots/delete event.png)
+> - **Invitations (Accept via Invitation):** > ![Invitations Screenshot](./screenshots/join invitation.png)
+> - **Invitations (Join via Link):** > ![Join via Link Screenshot](./screenshots/join via link.png)
+> - **Event Search:** > ![Event Search Screenshot](./screenshots/event search.png)
+> - **Drag-and-Drop Events:** > ![Drag-and-Drop Screenshot](./screenshots/week view calender.png)
+> - **Settings/Timezone Change:** > ![Settings Screenshot](./screenshots/change password and timezone.png)
 
 ---
 
@@ -148,13 +152,15 @@ Celander-app/
 >
 > ### Frontend
 >
-> - **Jest Coverage Report:** > ![Jest Coverage Report Screenshot](path/to/jest-coverage-screenshot.png)
-> - **Playwright E2E Report:** > ![Playwright Report Screenshot](path/to/playwright-report-screenshot.png)
+> - **Jest Coverage Report:** > ![Jest Coverage Report Screenshot](./screenshots/frontend-jest-report.png)
+> - **Jest Terminal Output:** > ![Jest Terminal Output Screenshot](./screenshots/frontend jest terminal output.png)
+> - **Playwright E2E Calendar Test:** > ![Playwright Calendar Test Screenshot](./screenshots/plawright-test-calender.png)
+> - **Playwright E2E Auth Test:** > ![Playwright Auth Test Screenshot](./screenshots/plawright-test-auth.png)
 >
 > ### Backend
 >
-> - **JUnit Test Report:** > ![JUnit Test Report Screenshot](path/to/junit-report-screenshot.png)
-> - **PIT Mutation Report:** > ![PIT Mutation Report Screenshot](path/to/pit-report-screenshot.png)
+> - **PIT Mutation Report:** > ![PIT Mutation Report Screenshot](./screenshots/backend-coverage-report.png)
+> - **PIT Terminal Output:** > ![PIT Terminal Output Screenshot](./screenshots/backend-coverage-terminal-output.png)
 
 ---
 
