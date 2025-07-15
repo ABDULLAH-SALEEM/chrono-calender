@@ -68,7 +68,7 @@ jobs:
 
       - name: Run frontend tests (Jest)
         working-directory: ./frontend
-        run: npm test -- --ci --passWithNoTests
+        run: npm run test
 
       - name: Build frontend
         working-directory: ./frontend
