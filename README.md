@@ -77,16 +77,16 @@ Celander-app/
 >
 > - **Login Page:** > ![Login Page Screenshot](./screenshots/login.png)
 > - **Registration Page:** > ![Registration Page Screenshot](./screenshots/register.png)
-> - **Calendar (Month View):** > ![Month View Screenshot](./screenshots/month view.png)
-> - **Calendar (Week View):** > ![Week View Screenshot](./screenshots/week view calender.png)
-> - **Calendar (Day View):** > ![Day View Screenshot](./screenshots/day view.png)
-> - **Event Creation/Edit Dialog:** > ![Event Creation Screenshot](./screenshots/create event.png)
-> - **Delete Event:** > ![Delete Event Screenshot](./screenshots/delete event.png)
-> - **Invitations (Accept via Invitation):** > ![Invitations Screenshot](./screenshots/join invitation.png)
-> - **Invitations (Join via Link):** > ![Join via Link Screenshot](./screenshots/join via link.png)
-> - **Event Search:** > ![Event Search Screenshot](./screenshots/event search.png)
-> - **Drag-and-Drop Events:** > ![Drag-and-Drop Screenshot](./screenshots/week view calender.png)
-> - **Settings/Timezone Change:** > ![Settings Screenshot](./screenshots/change password and timezone.png)
+> - **Calendar (Month View):** > ![Month View Screenshot](./screenshots/month-view.png)
+> - **Calendar (Week View):** > ![Week View Screenshot](./screenshots/week-view-calender.png)
+> - **Calendar (Day View):** > ![Day View Screenshot](./screenshots/day-view.png)
+> - **Event Creation/Edit Dialog:** > ![Event Creation Screenshot](./screenshots/create-event.png)
+> - **Delete Event:** > ![Delete Event Screenshot](./screenshots/delete-event.png)
+> - **Invitations (Accept via Invitation):** > ![Invitations Screenshot](./screenshots/join-invitation.png)
+> - **Invitations (Join via Link):** > ![Join via Link Screenshot](./screenshots/join-via-link.png)
+> - **Event Search:** > ![Event Search Screenshot](./screenshots/event-search.png)
+> - **Drag-and-Drop Events:** > ![Drag-and-Drop Screenshot](./screenshots/week-view-calender.png)
+> - **Settings/Timezone Change:** > ![Settings Screenshot](./screenshots/change-password-and-timezone.png)
 
 ---
 
@@ -153,7 +153,7 @@ Celander-app/
 > ### Frontend
 >
 > - **Jest Coverage Report:** > ![Jest Coverage Report Screenshot](./screenshots/frontend-jest-report.png)
-> - **Jest Terminal Output:** > ![Jest Terminal Output Screenshot](./screenshots/frontend jest terminal output.png)
+> - **Jest Terminal Output:** > ![Jest Terminal Output Screenshot](./screenshots/frontend-jest-terminal-output.png)
 > - **Playwright E2E Calendar Test:** > ![Playwright Calendar Test Screenshot](./screenshots/plawright-test-calender.png)
 > - **Playwright E2E Auth Test:** > ![Playwright Auth Test Screenshot](./screenshots/plawright-test-auth.png)
 >
